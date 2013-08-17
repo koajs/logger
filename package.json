@@ -3,10 +3,21 @@
   "description": "Logging middleware for koa",
   "repository": "koajs/logger",
   "version": "1.0.0",
-  "keywords": ["koa", "middleware", "logger", "log"],
-  "files": ["index.js"],
+  "keywords": [
+    "koa",
+    "middleware",
+    "logger",
+    "log"
+  ],
+  "files": [
+    "index.js"
+  ],
   "devDependencies": {
     "koa": "0.0.1"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "ms": "~0.6.1",
+    "bytes": "~0.2.1"
+  }
 }
