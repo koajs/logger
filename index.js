@@ -40,23 +40,38 @@ function dev(opts) {
       // request
       var start = new Date;
       console.log('  \033[90m<-- \033[;1m%s\033[90m %s\033[0m', this.method, this.url);
-      yield next;
-
-      // time
-      var delta = ms(new Date - start);
       
-      // length
-      var len = this.responseLength;
-
-      var s = this.status / 100 | 0;
-      var c = colors[s];
-
-      console.log('  \033[90m--> \033[;1m%s\033[90m %s \033[' + c + 'm%s\033[90m %s %s\033[0m',
-        this.method,
-        this.url,
-        this.status,
-        delta,
-        null == len ? '-' : bytes(len));
+      try {
+        yield next;
+        log(this, start);
+      } catch (err) {
+        log(this, start, err);
+        throw err;
+      }
     }
   }
+}
+
+/**
+ * Log helper.
+ */
+
+function log(ctx, start, err) {
+  err = err || {};
+
+  // time
+  var delta = ms(new Date - start);
+  
+  // length
+  var len = ctx.responseLength;
+
+  var s = (err.status || ctx.status) / 100 | 0;
+  var c = colors[s];
+
+  console.log('  \033[90m--> \033[;1m%s\033[90m %s \033[' + c + 'm%s\033[90m %s %s\033[0m',
+    ctx.method,
+    ctx.url,
+    ctx.status,
+    delta,
+    null == len ? '-' : bytes(len));
 }

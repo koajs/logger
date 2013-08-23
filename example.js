@@ -17,9 +17,16 @@ app.use(function(next){
     // sleep for 0-1s
     yield sleep(Math.random() * 1000 | 0);
 
+    // error
+    if (Math.random() > .75) {
+      var err = new Error('boom');
+      err.status = 500;
+      throw err;
+    }
+
     // random body
     var body = Array(Math.random() * 5 * 1024 | 9).join('a');
-    this.status = Math.random() > .75 ? 500 : 200;
+    this.status = 200;
     this.body = body;
   }
 });
