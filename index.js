@@ -35,19 +35,31 @@ var colors = {
  */
 
 function dev(opts) {
-  return function(next) {
-    return function *dev(){
-      // request
-      var start = new Date;
-      console.log('  \033[90m<-- \033[;1m%s\033[90m %s\033[0m', this.method, this.url);
-      
-      try {
-        yield next;
-        log(this, start);
-      } catch (err) {
-        log(this, start, err);
-        throw err;
-      }
+  return function *dev(next) {
+    // request
+    var start = new Date;
+    console.log('  \033[90m<-- \033[;1m%s\033[90m %s\033[0m', this.method, this.url);
+
+    try {
+      yield next;
+    } catch (err) {
+      // log uncaught downstream errors
+      log(this, start, err);
+      throw err;
+    }
+
+    // log when the response is finished or closed,
+    // whichever happens first.
+    var ctx = this;
+    var res = this.res;
+
+    res.once('finish', done);
+    res.once('close', done);
+
+    function done(){
+      res.removeListener('finish', done);
+      res.removeListener('close', done);
+      log(ctx, start);
     }
   }
 }
@@ -61,7 +73,7 @@ function log(ctx, start, err) {
 
   // time
   var delta = ms(new Date - start);
-  
+
   // length
   var len = ctx.responseLength;
 
