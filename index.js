@@ -4,7 +4,7 @@
  */
 
 var bytes = require('bytes');
-var ms = require('ms');
+var humanize = require('humanize-number');
 
 /**
  * TTY check for dev format.
@@ -71,9 +71,6 @@ function dev(opts) {
 function log(ctx, start, err) {
   err = err || {};
 
-  // time
-  var delta = ms(new Date - start);
-
   // length
   var len = ctx.responseLength;
 
@@ -84,6 +81,20 @@ function log(ctx, start, err) {
     ctx.method,
     ctx.url,
     ctx.status,
-    delta,
+    time(start),
     null == len ? '-' : bytes(len));
+}
+
+/**
+ * Show the response time in a human readable format.
+ * In milliseconds if less than 10 seconds,
+ * in seconds otherwise.
+ */
+
+function time(start) {
+  var delta = new Date - start;
+  delta = delta < 10000
+    ? delta + 'ms'
+    : Math.round(delta / 1000) + 's';
+  return humanize(delta);
 }
