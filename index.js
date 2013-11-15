@@ -5,6 +5,7 @@
 
 var bytes = require('bytes');
 var humanize = require('humanize-number');
+var Stream = require('stream');
 
 /**
  * TTY check for dev format.
@@ -44,8 +45,26 @@ function dev(opts) {
       yield next;
     } catch (err) {
       // log uncaught downstream errors
-      log(this, start, err);
+      log(this, start, null, err);
       throw err;
+    }
+
+    // calculate the length of a streaming response
+    // by intercepting the stream with a counter.
+    // only necessary if a content-length header is currently not set.
+    var length = this.responseLength;
+    var body = this.body;
+    if (null == length && body && body.readable) {
+      length = 0;
+      var through = new Stream.PassThrough;
+      var counter = new Stream.Writable;
+      counter._write = function(chunk, enc, cb){
+        length += chunk.length;
+        cb();
+      };
+      body.pipe(through).on('error', this.onerror);
+      body.pipe(counter).on('error', this.onerror);
+      this.body = through;
     }
 
     // log when the response is finished or closed,
@@ -59,7 +78,7 @@ function dev(opts) {
     function done(){
       res.removeListener('finish', done);
       res.removeListener('close', done);
-      log(ctx, start);
+      log(ctx, start, length);
     }
   }
 }
@@ -68,11 +87,8 @@ function dev(opts) {
  * Log helper.
  */
 
-function log(ctx, start, err) {
+function log(ctx, start, len, err) {
   err = err || {};
-
-  // length
-  var len = ctx.responseLength;
 
   var s = (err.status || ctx.status) / 100 | 0;
   var c = colors[s];
