@@ -13,10 +13,12 @@
     "index.js"
   ],
   "devDependencies": {
-    "koa": "koajs/koa"
+    "koa": "koajs/koa",
+    "koa-compress": "koajs/compress"
   },
   "license": "MIT",
   "dependencies": {
+    "passthrough-counter": "~0.0.1",
     "humanize-number": "~0.0.1",
     "bytes": "~0.2.1"
   }

@@ -1,11 +1,22 @@
 
 var logger = require('./');
 var koa = require('koa');
+var compress = require('koa-compress')();
 var app = koa();
 
 // wrap subsequent middleware in a logger
 
 app.use(logger());
+
+// compress the response 1/2 the time to calculate the stream length
+
+app.use(function* (next) {
+  if (Math.random() > 0.5) {
+    yield next;
+  } else {
+    yield compress.call(this, next);
+  }
+})
 
 // response middleware
 

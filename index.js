@@ -5,7 +5,7 @@
 
 var bytes = require('bytes');
 var humanize = require('humanize-number');
-var Stream = require('stream');
+var Counter = require('passthrough-counter');
 
 /**
  * TTY check for dev format.
@@ -54,17 +54,11 @@ function dev(opts) {
     // only necessary if a content-length header is currently not set.
     var length = this.responseLength;
     var body = this.body;
+    var counter;
     if (null == length && body && body.readable) {
-      length = 0;
-      var through = new Stream.PassThrough;
-      var counter = new Stream.Writable;
-      counter._write = function(chunk, enc, cb){
-        length += chunk.length;
-        cb();
-      };
-      body.pipe(through).on('error', this.onerror);
-      body.pipe(counter).on('error', this.onerror);
-      this.body = through;
+      this.body = body
+        .pipe(counter = Counter())
+        .on('error', this.onerror);
     }
 
     // log when the response is finished or closed,
@@ -78,7 +72,7 @@ function dev(opts) {
     function done(){
       res.removeListener('finish', done);
       res.removeListener('close', done);
-      log(ctx, start, length);
+      log(ctx, start, counter ? counter.length : length);
     }
   }
 }
