@@ -84,15 +84,31 @@ function dev(opts) {
 function log(ctx, start, len, err) {
   err = err || {};
 
-  var s = (err.status || ctx.status) / 100 | 0;
+  // get the status code of the response
+  var status = err.status || ctx.status;
+  var handled = status != 200 || ctx.body != null;
+  if (!handled) status = 404;
+
+  // set the color of the status code;
+  var s = status / 100 | 0;
   var c = colors[s];
+
+  // get the human readable response length
+  var length;
+  if (~[204, 205, 304].indexOf(status)) {
+    length = '';
+  } else if (null == len) {
+    length = '-';
+  } else {
+    length = bytes(len);
+  }
 
   console.log('  \033[90m--> \033[;1m%s\033[90m %s \033[' + c + 'm%s\033[90m %s %s\033[0m',
     ctx.method,
     ctx.url,
-    ctx.status,
+    status,
     time(start),
-    null == len ? '-' : bytes(len));
+    length);
 }
 
 /**

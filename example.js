@@ -8,9 +8,23 @@ var app = koa();
 
 app.use(logger());
 
+// 204
+
+app.use(function *(next){
+  if ('/204' == this.path) this.status = 204;
+  else yield next;
+})
+
+// 404
+
+app.use(function *(next){
+  if ('/404' == this.path) return;
+  yield next;
+})
+
 // compress the response 1/2 the time to calculate the stream length
 
-app.use(function* (next) {
+app.use(function *(next){
   if (Math.random() > 0.5) {
     yield next;
   } else {
@@ -40,8 +54,9 @@ app.use(function *(next){
   this.body = body;
 });
 
-app.listen(3000);
-console.log('listening on port 3000');
+var port = process.env.PORT || 3000;
+app.listen(port);
+console.log('listening on port ' + port);
 
 // sleep helper
 
