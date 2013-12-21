@@ -3,9 +3,9 @@
  * Module dependencies.
  */
 
-var bytes = require('bytes');
-var humanize = require('humanize-number');
 var Counter = require('passthrough-counter');
+var humanize = require('humanize-number');
+var bytes = require('bytes');
 
 /**
  * TTY check for dev format.
