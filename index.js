@@ -1,4 +1,3 @@
-
 /**
  * Module dependencies.
  */
@@ -36,7 +35,7 @@ var colors = {
  */
 
 function dev(opts) {
-  return function *dev(next) {
+  return function *logger(next) {
     // request
     var start = new Date;
     console.log('  \033[90m<-- \033[;1m%s\033[90m %s\033[0m', this.method, this.url);
