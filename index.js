@@ -35,7 +35,7 @@ var colors = {
  * Development logger.
  */
 
-function dev(opts) {
+function dev() {
   return function *dev(next) {
     // request
     var start = new Date;
