@@ -35,11 +35,16 @@ var colors = {
  * Development logger.
  */
 
-function dev(opts) {
+function dev() {
   return function *dev(next) {
     // request
     var start = new Date;
-    console.log('  \033[90m<-- \033[;1m%s\033[90m %s\033[0m', this.method, this.url);
+
+    console.log(isatty
+      ? '  \033[90m<-- \033[;1m%s\033[90m %s\033[0m'
+      : '  <-- %s %s',
+      this.method,
+      this.url);
 
     try {
       yield next;
@@ -103,7 +108,9 @@ function log(ctx, start, len, err) {
     length = bytes(len);
   }
 
-  console.log('  \033[90m--> \033[;1m%s\033[90m %s \033[' + c + 'm%s\033[90m %s %s\033[0m',
+  console.log(isatty
+    ? '  \033[90m--> \033[;1m%s\033[90m %s \033[' + c + 'm%s\033[90m %s %s\033[0m'
+    : '  --> %s %s %s %s %s',
     ctx.method,
     ctx.url,
     status,
