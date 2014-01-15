@@ -104,7 +104,7 @@ function log(ctx, start, len, err) {
 
   console.log('  \033[90m--> \033[;1m%s\033[90m %s \033[' + c + 'm%s\033[90m %s %s\033[0m',
     ctx.method,
-    ctx.url,
+    ctx.originalUrl,
     status,
     time(start),
     length);
