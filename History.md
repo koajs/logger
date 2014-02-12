@@ -1,4 +1,10 @@
 
+1.2.0 / 2014-02-12
+==================
+
+ * add: add colors and symbols for error and close events
+ * remove: only make the method bold
+
 1.1.1 / 2014-01-15
 ==================
 
