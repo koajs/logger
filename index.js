@@ -65,13 +65,16 @@ function dev(opts) {
     var ctx = this;
     var res = this.res;
 
-    res.once('finish', done);
-    res.once('close', done);
+    var onfinish = done.bind(null, 'finish');
+    var onclose = done.bind(null, 'close');
 
-    function done(){
-      res.removeListener('finish', done);
-      res.removeListener('close', done);
-      log(ctx, start, counter ? counter.length : length);
+    res.once('finish', onfinish);
+    res.once('close', onclose);
+
+    function done(event){
+      res.removeListener('finish', onfinish);
+      res.removeListener('close', onclose);
+      log(ctx, start, counter ? counter.length : length, null, event);
     }
   }
 }
@@ -80,13 +83,11 @@ function dev(opts) {
  * Log helper.
  */
 
-function log(ctx, start, len, err) {
-  err = err || {};
-
+function log(ctx, start, len, err, event) {
   // get the status code of the response
-  var status = err.status || ctx.status;
-  var handled = status != 200 || ctx.body != null;
-  if (!handled) status = 404;
+  var status = err
+    ? (err.status || 500)
+    : (ctx.status || 404);
 
   // set the color of the status code;
   var s = status / 100 | 0;
@@ -102,7 +103,11 @@ function log(ctx, start, len, err) {
     length = bytes(len);
   }
 
-  console.log('  \033[90m--> \033[;1m%s\033[0;90m %s \033[' + c + 'm%s\033[90m %s %s\033[0m',
+  var upstream = err ? '\033[31mxxx'
+    : event === 'close' ? '\033[33m-x-'
+    : '\033[90m-->';
+
+  console.log('  ' + upstream + ' \033[;1m%s\033[0;90m %s \033[' + c + 'm%s\033[90m %s %s\033[0m',
     ctx.method,
     ctx.originalUrl,
     status,

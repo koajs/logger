@@ -22,6 +22,13 @@ app.use(function *(next){
   yield next;
 })
 
+// destroy
+
+app.use(function *(next){
+  if ('/close' == this.path) return this.req.destroy();
+  yield next;
+})
+
 // compress the response 1/2 the time to calculate the stream length
 
 app.use(function *(next){
