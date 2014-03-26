@@ -20,6 +20,6 @@
   "dependencies": {
     "passthrough-counter": "~0.0.1",
     "humanize-number": "~0.0.1",
-    "bytes": "~0.2.1"
+    "bytes": "~0.3.0"
   }
 }
