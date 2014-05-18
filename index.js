@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Module dependencies.
  */
@@ -38,7 +40,7 @@ function dev(opts) {
   return function *logger(next) {
     // request
     var start = new Date;
-    console.log('  \033[90m<-- \033[;1m%s\033[0;90m %s\033[0m', this.method, this.url);
+    console.log('  \x1B[90m<-- \x1B[;1m%s\x1B[0;90m %s\x1B[0m', this.method, this.url);
 
     try {
       yield next;
@@ -65,17 +67,17 @@ function dev(opts) {
     var ctx = this;
     var res = this.res;
 
+    var done = function(event) {
+      res.removeListener('finish', onfinish);
+      res.removeListener('close', onclose);
+      log(ctx, start, counter ? counter.length : length, null, event);
+    }
+
     var onfinish = done.bind(null, 'finish');
     var onclose = done.bind(null, 'close');
 
     res.once('finish', onfinish);
     res.once('close', onclose);
-
-    function done(event){
-      res.removeListener('finish', onfinish);
-      res.removeListener('close', onclose);
-      log(ctx, start, counter ? counter.length : length, null, event);
-    }
   }
 }
 
@@ -103,11 +105,11 @@ function log(ctx, start, len, err, event) {
     length = bytes(len);
   }
 
-  var upstream = err ? '\033[31mxxx'
-    : event === 'close' ? '\033[33m-x-'
-    : '\033[90m-->';
+  var upstream = err ? '\x1B[31mxxx'
+    : event === 'close' ? '\x1B[33m-x-'
+    : '\x1B[90m-->';
 
-  console.log('  ' + upstream + ' \033[;1m%s\033[0;90m %s \033[' + c + 'm%s\033[90m %s %s\033[0m',
+  console.log('  ' + upstream + ' \x1B[;1m%s\x1B[0;90m %s \x1B[' + c + 'm%s\x1B[90m %s %s\x1B[0m',
     ctx.method,
     ctx.originalUrl,
     status,
