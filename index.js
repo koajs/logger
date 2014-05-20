@@ -2,8 +2,9 @@
  * Module dependencies.
  */
 
-var Counter = require('passthrough-counter');
+var byteLength = require('koa-byte-length')();
 var humanize = require('humanize-number');
+var statuses = require('statuses');
 var bytes = require('bytes');
 
 /**
@@ -36,6 +37,8 @@ var colors = {
 
 function dev(opts) {
   return function *logger(next) {
+    yield* byteLength.call(this);
+
     // request
     var start = new Date;
     console.log('  \033[90m<-- \033[;1m%s\033[0;90m %s\033[0m', this.method, this.url);
@@ -48,17 +51,8 @@ function dev(opts) {
       throw err;
     }
 
-    // calculate the length of a streaming response
-    // by intercepting the stream with a counter.
-    // only necessary if a content-length header is currently not set.
-    var length = this.responseLength;
-    var body = this.body;
-    var counter;
-    if (null == length && body && body.readable) {
-      this.body = body
-        .pipe(counter = Counter())
-        .on('error', this.onerror);
-    }
+    // set this.response.byteLength
+    yield* byteLength.call(this);
 
     // log when the response is finished or closed,
     // whichever happens first.
@@ -74,7 +68,7 @@ function dev(opts) {
     function done(event){
       res.removeListener('finish', onfinish);
       res.removeListener('close', onclose);
-      log(ctx, start, counter ? counter.length : length, null, event);
+      log(ctx, start, ctx.response.byteLength, null, event);
     }
   }
 }
@@ -95,7 +89,7 @@ function log(ctx, start, len, err, event) {
 
   // get the human readable response length
   var length;
-  if (~[204, 205, 304].indexOf(status)) {
+  if (statuses.empty[status]) {
     length = '';
   } else if (null == len) {
     length = '-';

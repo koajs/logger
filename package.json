@@ -18,8 +18,12 @@
   },
   "license": "MIT",
   "dependencies": {
-    "passthrough-counter": "~0.0.1",
+    "statuses": "1",
+    "koa-byte-length": "1",
     "humanize-number": "~0.0.1",
     "bytes": "1"
+  },
+  "scripts": {
+    "start": "node --harmony-generators example.js"
   }
 }
