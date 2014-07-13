@@ -7,6 +7,12 @@ var humanize = require('humanize-number');
 var bytes = require('bytes');
 
 /**
+ * Default logger
+ */
+
+var printOut = console.log;
+
+/**
  * TTY check for dev format.
  */
 
@@ -35,10 +41,11 @@ var colors = {
  */
 
 function dev(opts) {
+  printOut = opts.logger || printOut;
   return function *logger(next) {
     // request
     var start = new Date;
-    console.log('  \x1B[90m<-- \x1B[;1m%s\x1B[0;90m %s\x1B[0m', this.method, this.url);
+    printOut('  \x1B[90m<-- \x1B[;1m%s\x1B[0;90m %s\x1B[0m', this.method, this.url);
 
     try {
       yield next;
@@ -107,7 +114,7 @@ function log(ctx, start, len, err, event) {
     : event === 'close' ? '\x1B[33m-x-'
     : '\x1B[90m-->';
 
-  console.log('  ' + upstream + ' \x1B[;1m%s\x1B[0;90m %s \x1B[' + c + 'm%s\x1B[90m %s %s\x1B[0m',
+  printOut('  ' + upstream + ' \x1B[;1m%s\x1B[0;90m %s \x1B[' + c + 'm%s\x1B[90m %s %s\x1B[0m',
     ctx.method,
     ctx.originalUrl,
     status,
