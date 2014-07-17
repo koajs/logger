@@ -51,7 +51,7 @@ function dev(opts) {
     // calculate the length of a streaming response
     // by intercepting the stream with a counter.
     // only necessary if a content-length header is currently not set.
-    var length = this.responseLength;
+    var length = this.length;
     var body = this.body;
     var counter;
     if (null == length && body && body.readable) {
