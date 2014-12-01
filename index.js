@@ -7,12 +7,6 @@ var humanize = require('humanize-number');
 var bytes = require('bytes');
 
 /**
- * TTY check for dev format.
- */
-
-var isatty = process.stdout.isTTY;
-
-/**
  * Expose logger.
  */
 
