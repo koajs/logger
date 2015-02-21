@@ -30,6 +30,19 @@ var app = koa()
 app.use(logger())
 ```
 
+## Custom Reporter
+
+If you want to log to another reporter, simply pass it as an argument.
+
+```js
+var logger = require('koa-logger')
+var koa = require('koa')
+var mag = require('mag')
+
+var app = koa()
+app.use(logger({reporter: mag('koa')}))
+```
+
 ## Notes
 
   Recommended that you `.use()` this middleware near the top

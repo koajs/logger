@@ -35,16 +35,24 @@ var colors = {
  */
 
 function dev(opts) {
+  if ('object' !== typeof opts) {
+    opts = {};
+  }
+
+  if ('object' !== typeof opts.reporter) {
+    opts.reporter = console;
+  }
+
   return function *logger(next) {
     // request
     var start = new Date;
-    console.log('  \x1B[90m<-- \x1B[;1m%s\x1B[0;90m %s\x1B[0m', this.method, this.url);
+    opts.reporter.log('  \x1B[90m<-- \x1B[;1m%s\x1B[0;90m %s\x1B[0m', this.method, this.url);
 
     try {
       yield next;
     } catch (err) {
       // log uncaught downstream errors
-      log(this, start, null, err);
+      log(this, opts, start, null, err);
       throw err;
     }
 
@@ -74,7 +82,7 @@ function dev(opts) {
     function done(event){
       res.removeListener('finish', onfinish);
       res.removeListener('close', onclose);
-      log(ctx, start, counter ? counter.length : length, null, event);
+      log(ctx, opts, start, counter ? counter.length : length, null, event);
     }
   }
 }
@@ -83,7 +91,7 @@ function dev(opts) {
  * Log helper.
  */
 
-function log(ctx, start, len, err, event) {
+function log(ctx, opts, start, len, err, event) {
   // get the status code of the response
   var status = err
     ? (err.status || 500)
@@ -107,7 +115,7 @@ function log(ctx, start, len, err, event) {
     : event === 'close' ? '\x1B[33m-x-'
     : '\x1B[90m-->';
 
-  console.log('  ' + upstream + ' \x1B[;1m%s\x1B[0;90m %s \x1B[' + c + 'm%s\x1B[90m %s %s\x1B[0m',
+  opts.reporter.log('  ' + upstream + ' \x1B[;1m%s\x1B[0;90m %s \x1B[' + c + 'm%s\x1B[90m %s %s\x1B[0m',
     ctx.method,
     ctx.originalUrl,
     status,
