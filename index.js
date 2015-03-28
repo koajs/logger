@@ -86,7 +86,7 @@ function dev(opts) {
  * Log helper.
  */
 
-var datafmt = unit.formatter({ unit: 'B', base: 1024 });
+var datafmt = unit.formatter({ unit: 'B', base: 1024, atomic: true });
 
 function log(ctx, start, len, err, event) {
   // get the status code of the response
