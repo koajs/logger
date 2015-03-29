@@ -1,8 +1,8 @@
 /**
  * Module dependencies.
  */
-var col = require('colors');
 var Counter = require('passthrough-counter');
+var col = require('colors');
 var unit = require('unitex');
 
 /**
@@ -34,20 +34,23 @@ col.setTheme({
  */
 
 function dev(opts) {
+
+  opts = opts || {};
+
   return function* logger(next) {
     // request
     var start = new Date;
     console.log(
-        '=>'.white,
-        this.method,
-        this.url.yellow
+      (opts.reverse ? '-->' : '<--').white,
+      this.method,
+      this.url.yellow
     );
 
     try {
       yield next;
     } catch (err) {
       // log uncaught downstream errors
-      log(this, start, null, err);
+      log(this, start, null, err, null, opts);
       throw err;
     }
 
@@ -77,7 +80,7 @@ function dev(opts) {
     function done(event) {
       res.removeListener('finish', onfinish);
       res.removeListener('close', onclose);
-      log(ctx, start, counter ? counter.length : length, null, event);
+      log(ctx, start, counter ? counter.length : length, null, event, opts);
     }
   }
 }
@@ -88,7 +91,11 @@ function dev(opts) {
 
 var datafmt = unit.formatter({ unit: 'B', base: 1024, atomic: true });
 
-function log(ctx, start, len, err, event) {
+function log(ctx, start, len, err, event, opts) {
+
+  // in case log is called from somewhere else
+  opts = opts || {};
+
   // get the status code of the response
   var status = err ? (err.status || 500) : (ctx.status || 404);
 
@@ -102,12 +109,15 @@ function log(ctx, start, len, err, event) {
     length = datafmt(len);
   }
 
-  console.log(
-    err ? 'xx'.red : event === 'close' ? '--'.red : '<='.white,
-    col[status / 100 | 0](status),
-    col.blue(time(start)),
-    col.green(length)
-  );
+  var out = [err ? 'xxx'.red : event === 'close' ? '-x-'.red : (opts.reverse ? '<--' : '-->').white];
+
+  if (!opts.lean) {
+    out = out.concat([ctx.method, ctx.originalUrl.yellow]);
+  }
+
+  out = out.concat([col[status / 100 | 0](status), col.blue(time(start)), col.green(length)]);
+
+  console.log(out.join(' '));
 }
 
 /**

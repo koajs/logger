@@ -20,6 +20,6 @@
   "dependencies": {
     "colors": "^1.0.3",
     "passthrough-counter": "^1.0.0",
-    "unitex": "^0.1.2"
+    "unitex": "^0.2.0"
   }
 }

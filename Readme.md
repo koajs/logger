@@ -4,14 +4,14 @@
 Development style logger middleware for koa.
 
 ```
-=> GET /
-<= 200 835 ms 746 B
-=> GET /
-<= 200 960ms 1.9 KB
-=> GET /users
-<= 200 357ms 922 B
-=> GET /users?page=2
-<= 200 466 ms 4.66 KB
+<-- GET /
+--> 200 835 ms 746 B
+<-- GET /
+--> 200 960ms 1.9 KB
+<-- GET /users
+--> 200 357ms 922 B
+<-- GET /users?page=2
+--> 200 466 ms 4.66 KB
 ```
 
 ## Installation
