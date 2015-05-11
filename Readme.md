@@ -1,17 +1,17 @@
 
 # koa-logger
 
- Development style logger middleware for koa.
+Development style logger middleware for koa.
 
 ```
 <-- GET /
---> GET / 200 835ms 746b
+--> 200 835 ms 746 B
 <-- GET /
---> GET / 200 960ms 1.9kb
+--> 200 960ms 1.9 KB
 <-- GET /users
---> GET /users 200 357ms 922b
+--> 200 357ms 922 B
 <-- GET /users?page=2
---> GET /users?page=2 200 466ms 4.66kb
+--> 200 466 ms 4.66 KB
 ```
 
 ## Installation
@@ -37,4 +37,4 @@ app.use(logger())
 
 ## License
 
-  MIT
+MIT

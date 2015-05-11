@@ -1,10 +1,9 @@
 /**
  * Module dependencies.
  */
-
 var Counter = require('passthrough-counter');
-var humanize = require('humanize-number');
-var bytes = require('bytes');
+var col = require('colors');
+var unit = require('unitex');
 
 /**
  * TTY check for dev format.
@@ -22,29 +21,36 @@ module.exports = dev;
  * Color map.
  */
 
-var colors = {
-  5: 31,
-  4: 33,
-  3: 36,
-  2: 32,
-  1: 32
-};
+col.setTheme({
+  1: 'green',
+  2: 'green',
+  3: 'blue',
+  4: 'yellow',
+  5: 'red'
+});
 
 /**
  * Development logger.
  */
 
 function dev(opts) {
-  return function *logger(next) {
+
+  opts = opts || {};
+
+  return function* logger(next) {
     // request
     var start = new Date;
-    console.log('  \x1B[90m<-- \x1B[;1m%s\x1B[0;90m %s\x1B[0m', this.method, this.url);
+    console.log(
+      (opts.reverse ? '-->' : '<--').white,
+      this.method,
+      this.url.yellow
+    );
 
     try {
       yield next;
     } catch (err) {
       // log uncaught downstream errors
-      log(this, start, null, err);
+      log(this, start, null, err, null, opts);
       throw err;
     }
 
@@ -71,10 +77,10 @@ function dev(opts) {
     res.once('finish', onfinish);
     res.once('close', onclose);
 
-    function done(event){
+    function done(event) {
       res.removeListener('finish', onfinish);
       res.removeListener('close', onclose);
-      log(ctx, start, counter ? counter.length : length, null, event);
+      log(ctx, start, counter ? counter.length : length, null, event, opts);
     }
   }
 }
@@ -83,48 +89,44 @@ function dev(opts) {
  * Log helper.
  */
 
-function log(ctx, start, len, err, event) {
-  // get the status code of the response
-  var status = err
-    ? (err.status || 500)
-    : (ctx.status || 404);
+var datafmt = unit.formatter({ unit: 'B', base: 1024, atomic: true });
 
-  // set the color of the status code;
-  var s = status / 100 | 0;
-  var c = colors[s];
+function log(ctx, start, len, err, event, opts) {
+
+  // in case log is called from somewhere else
+  opts = opts || {};
+
+  // get the status code of the response
+  var status = err ? (err.status || 500) : (ctx.status || 404);
 
   // get the human readable response length
   var length;
   if (~[204, 205, 304].indexOf(status)) {
     length = '';
-  } else if (null == len) {
+  } else if (len == null) {
     length = '-';
   } else {
-    length = bytes(len);
+    length = datafmt(len);
   }
 
-  var upstream = err ? '\x1B[31mxxx'
-    : event === 'close' ? '\x1B[33m-x-'
-    : '\x1B[90m-->';
+  var out = [err ? 'xxx'.red : event === 'close' ? '-x-'.red : (opts.reverse ? '<--' : '-->').white];
 
-  console.log('  ' + upstream + ' \x1B[;1m%s\x1B[0;90m %s \x1B[' + c + 'm%s\x1B[90m %s %s\x1B[0m',
-    ctx.method,
-    ctx.originalUrl,
-    status,
-    time(start),
-    length);
+  if (!opts.lean) {
+    out = out.concat([ctx.method, ctx.originalUrl.yellow]);
+  }
+
+  out = out.concat([col[status / 100 | 0](status), col.blue(time(start)), col.green(length)]);
+
+  console.log(out.join(' '));
 }
 
 /**
  * Show the response time in a human readable format.
- * In milliseconds if less than 10 seconds,
- * in seconds otherwise.
  */
+
+var timefmt = unit.formatter({ unit: 's', prefix: -1 });
 
 function time(start) {
   var delta = new Date - start;
-  delta = delta < 10000
-    ? delta + 'ms'
-    : Math.round(delta / 1000) + 's';
-  return humanize(delta);
+  return timefmt(delta);
 }

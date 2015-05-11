@@ -1,9 +1,18 @@
 
+1.3.0 / 2015-03-27
+==================
+
+ * fix: use `this.response.length` instead of `this.responseLength`
+ * add: unitex
+ * add: colors
+ * remove: humanize-number
+ * remove: bytes
+
 1.2.2 / 2014-07-05
 ==================
 
  * fix: stop using octal literals for strict mode
- 
+
 1.2.1 / 2014-05-13
 ==================
 

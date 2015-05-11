@@ -7,6 +7,8 @@ var app = koa();
 // wrap subsequent middleware in a logger
 
 app.use(logger());
+// app.use(logger({ lean: true, reverse: true }));
+
 
 // 204
 
