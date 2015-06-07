@@ -5,6 +5,7 @@
 var Counter = require('passthrough-counter');
 var humanize = require('humanize-number');
 var bytes = require('bytes');
+var chalk = require('chalk');
 
 /**
  * TTY check for dev format.
@@ -22,12 +23,12 @@ module.exports = dev;
  * Color map.
  */
 
-var colors = {
-  5: 31,
-  4: 33,
-  3: 36,
-  2: 32,
-  1: 32
+var colorCodes = {
+  5: 'red',
+  4: 'yellow',
+  3: 'cyan',
+  2: 'green',
+  1: 'green'
 };
 
 /**
@@ -38,7 +39,11 @@ function dev(opts) {
   return function *logger(next) {
     // request
     var start = new Date;
-    console.log('  \x1B[90m<-- \x1B[;1m%s\x1B[0;90m %s\x1B[0m', this.method, this.url);
+    console.log('  ' + chalk.gray('<--')
+      + ' ' + chalk.bold('%s')
+      + ' ' + chalk.gray('%s'),
+        this.method,
+        this.originalUrl);
 
     try {
       yield next;
@@ -91,7 +96,7 @@ function log(ctx, start, len, err, event) {
 
   // set the color of the status code;
   var s = status / 100 | 0;
-  var c = colors[s];
+  var color = colorCodes[s];
 
   // get the human readable response length
   var length;
@@ -103,16 +108,21 @@ function log(ctx, start, len, err, event) {
     length = bytes(len);
   }
 
-  var upstream = err ? '\x1B[31mxxx'
-    : event === 'close' ? '\x1B[33m-x-'
-    : '\x1B[90m-->';
+  var upstream = err ? chalk.red('xxx')
+    : event === 'close' ? chalk.yellow('-x-')
+    : chalk.gray('-->')
 
-  console.log('  ' + upstream + ' \x1B[;1m%s\x1B[0;90m %s \x1B[' + c + 'm%s\x1B[90m %s %s\x1B[0m',
-    ctx.method,
-    ctx.originalUrl,
-    status,
-    time(start),
-    length);
+  console.log('  ' + upstream
+    + ' ' + chalk.bold('%s')
+    + ' ' + chalk.gray('%s')
+    + ' ' + chalk[color]('%s')
+    + ' ' + chalk.gray('%s')
+    + ' ' + chalk.gray('%s'),
+      ctx.method,
+      ctx.originalUrl,
+      status,
+      time(start),
+      length);
 }
 
 /**
