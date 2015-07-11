@@ -12,14 +12,23 @@
   "files": [
     "index.js"
   ],
+  "scripts": {
+    "test": "mocha --harmony test.js"
+  },
   "devDependencies": {
-    "koa": "*",
-    "koa-compress": "*"
+    "chai": "^2.3.0",
+    "koa": "^0.21.0",
+    "koa-route": "^2.4.1",
+    "mocha": "^2.2.5",
+    "sinon": "^1.14.1",
+    "sinon-chai": "^2.7.0",
+    "supertest": "^1.0.1"
   },
   "license": "MIT",
   "dependencies": {
-    "passthrough-counter": "^1.0.0",
+    "bytes": "1",
+    "chalk": "^1.0.0",
     "humanize-number": "~0.0.1",
-    "bytes": "1"
+    "passthrough-counter": "^1.0.0"
   }
 }
