@@ -8,12 +8,6 @@ var bytes = require('bytes');
 var chalk = require('chalk');
 
 /**
- * TTY check for dev format.
- */
-
-var isatty = process.stdout.isTTY;
-
-/**
  * Expose logger.
  */
 
