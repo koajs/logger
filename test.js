@@ -14,12 +14,12 @@ var expect = chai.expect;
 // test subjects
 var chalk = require('chalk');
 var servers = require('./test-server');
-var log, sandbox;
 
 describe('koa-logger', function() {
 
   describe('default logger', function () {
     var app = servers.default;
+    var log, sandbox;
 
     beforeEach(function() {
       sandbox = sinon.sandbox.create();
@@ -162,6 +162,7 @@ describe('koa-logger', function() {
 
   describe('custom logger', function () {
     var app = servers.customLogger;
+    var log, sandbox;
 
     beforeEach(function() {
       sandbox = sinon.sandbox.create();

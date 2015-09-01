@@ -12,6 +12,11 @@ var chalk = require('chalk');
  */
 
 var isatty = process.stdout.isTTY;
+
+/**
+ * Default options values
+ */
+
 var defaultLogger = console;
 var defaultLevel = 'log';
 
@@ -19,7 +24,7 @@ var defaultLevel = 'log';
  * Expose logger.
  */
 
-module.exports = dev;
+module.exports = middleware;
 
 /**
  * Color map.
@@ -34,10 +39,10 @@ var colorCodes = {
 };
 
 /**
- * Development logger.
+ * Development logger middleware
  */
 
-function dev(opts) {
+function middleware(opts) {
   opts = opts || {};
   opts.logger = opts.logger || defaultLogger;
   opts.level = opts.level || defaultLevel;
