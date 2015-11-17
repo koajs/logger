@@ -1,17 +1,18 @@
 /**
  * Module dependencies.
  */
+'use strict';
 
-var Counter = require('passthrough-counter');
-var humanize = require('humanize-number');
-var bytes = require('bytes');
-var chalk = require('chalk');
+const Counter = require('passthrough-counter');
+const humanize = require('humanize-number');
+const bytes = require('bytes');
+const chalk = require('chalk');
 
 /**
  * TTY check for dev format.
  */
 
-var isatty = process.stdout.isTTY;
+const isatty = process.stdout.isTTY;
 
 /**
  * Expose logger.
@@ -23,7 +24,7 @@ module.exports = dev;
  * Color map.
  */
 
-var colorCodes = {
+const colorCodes = {
   5: 'red',
   4: 'yellow',
   3: 'cyan',
@@ -38,7 +39,7 @@ var colorCodes = {
 function dev(opts) {
   return function *logger(next) {
     // request
-    var start = new Date;
+    const start = new Date;
     console.log('  ' + chalk.gray('<--')
       + ' ' + chalk.bold('%s')
       + ' ' + chalk.gray('%s'),
@@ -56,9 +57,9 @@ function dev(opts) {
     // calculate the length of a streaming response
     // by intercepting the stream with a counter.
     // only necessary if a content-length header is currently not set.
-    var length = this.response.length;
-    var body = this.body;
-    var counter;
+    const length = this.response.length;
+    const body = this.body;
+    let counter;
     if (null == length && body && body.readable) {
       this.body = body
         .pipe(counter = Counter())
@@ -67,11 +68,11 @@ function dev(opts) {
 
     // log when the response is finished or closed,
     // whichever happens first.
-    var ctx = this;
-    var res = this.res;
+    const ctx = this;
+    const res = this.res;
 
-    var onfinish = done.bind(null, 'finish');
-    var onclose = done.bind(null, 'close');
+    const onfinish = done.bind(null, 'finish');
+    const onclose = done.bind(null, 'close');
 
     res.once('finish', onfinish);
     res.once('close', onclose);
@@ -90,16 +91,16 @@ function dev(opts) {
 
 function log(ctx, start, len, err, event) {
   // get the status code of the response
-  var status = err
+  const status = err
     ? (err.status || 500)
     : (ctx.status || 404);
 
   // set the color of the status code;
-  var s = status / 100 | 0;
-  var color = colorCodes[s];
+  const s = status / 100 | 0;
+  const color = colorCodes[s];
 
   // get the human readable response length
-  var length;
+  let length;
   if (~[204, 205, 304].indexOf(status)) {
     length = '';
   } else if (null == len) {
@@ -108,7 +109,7 @@ function log(ctx, start, len, err, event) {
     length = bytes(len);
   }
 
-  var upstream = err ? chalk.red('xxx')
+  const upstream = err ? chalk.red('xxx')
     : event === 'close' ? chalk.yellow('-x-')
     : chalk.gray('-->')
 
@@ -132,9 +133,8 @@ function log(ctx, start, len, err, event) {
  */
 
 function time(start) {
-  var delta = new Date - start;
-  delta = delta < 10000
+  const delta = new Date - start;
+  return humanize(delta < 10000
     ? delta + 'ms'
-    : Math.round(delta / 1000) + 's';
-  return humanize(delta);
+    : Math.round(delta / 1000) + 's');
 }
