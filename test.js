@@ -1,20 +1,20 @@
-
+'use strict';
 /**
  * test cases
  */
 
 // test tools
-var chai = require('chai');
-var sinon = require('sinon');
-var sc = require('sinon-chai');
-var request = require('supertest');
+const chai = require('chai');
+const sinon = require('sinon');
+const sc = require('sinon-chai');
+const request = require('supertest');
 chai.use(sc);
-var expect = chai.expect;
+const expect = chai.expect;
 
 // test subjects
-var chalk = require('chalk');
-var app = require('./test-server');
-var log, sandbox;
+const chalk = require('chalk');
+const app = require('./test-server');
+let log, sandbox;
 
 describe('koa-logger', function() {
   beforeEach(function() {
