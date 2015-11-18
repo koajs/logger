@@ -26,10 +26,10 @@ $ npm install koa-logger
 ## Example
 
 ```js
-var logger = require('koa-logger')
-var koa = require('koa')
+const logger = require('koa-logger')
+const koa = require('koa')
 
-var app = koa()
+const app = new Koa()
 app.use(logger())
 ```
 
