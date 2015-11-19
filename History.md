@@ -1,9 +1,15 @@
 
+2.0.0 / 2015-11-19
+==================
+
+* add: support for koa 2
+* remove: support for koa 1
+
 1.2.2 / 2014-07-05
 ==================
 
  * fix: stop using octal literals for strict mode
- 
+
 1.2.1 / 2014-05-13
 ==================
 
