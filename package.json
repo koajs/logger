@@ -16,8 +16,8 @@
     "test": "mocha --harmony test.js"
   },
   "devDependencies": {
-    "chai": "^2.3.0",
-    "koa": "^0.21.0",
+    "chai": "^3.4.1",
+    "koa": "^1.1.2",
     "koa-route": "^2.4.1",
     "mocha": "^2.2.5",
     "sinon": "^1.14.1",
@@ -26,7 +26,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "bytes": "1",
+    "bytes": "2.2.0",
     "chalk": "^1.0.0",
     "humanize-number": "~0.0.1",
     "passthrough-counter": "^1.0.0"
