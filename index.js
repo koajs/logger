@@ -34,12 +34,19 @@ var colorCodes = {
 /**
  * Development logger.
  */
-
+var loggerInstance;
 function dev(opts) {
+  if (opts && opts.logger) {
+    loggerInstance = opts.logger;
+  }
+  else {
+    loggerInstance = console;
+  }
+
   return function *logger(next) {
     // request
     var start = new Date;
-    console.log('  ' + chalk.gray('<--')
+    loggerInstance.log('  ' + chalk.gray('<--')
       + ' ' + chalk.bold('%s')
       + ' ' + chalk.gray('%s'),
         this.method,
@@ -112,7 +119,8 @@ function log(ctx, start, len, err, event) {
     : event === 'close' ? chalk.yellow('-x-')
     : chalk.gray('-->')
 
-  console.log('  ' + upstream
+
+  loggerInstance.log('  ' + upstream
     + ' ' + chalk.bold('%s')
     + ' ' + chalk.gray('%s')
     + ' ' + chalk[color]('%s')
