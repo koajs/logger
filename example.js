@@ -1,6 +1,6 @@
 
 const logger = require('./');
-const koa = require('koa');
+const Koa = require('koa');
 const compress = require('koa-compress')();
 const app = new Koa();
 
