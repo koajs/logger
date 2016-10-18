@@ -4,7 +4,7 @@
 [![npm version][npm-image]][npm-url]
 [![build status][travis-image]][travis-url]
 
- Development style logger middleware for [koa](https://github.com/koajs/koa).
+ Development style logger middleware for [Koa](https://github.com/koajs/koa).
 
 ```
 <-- GET /
