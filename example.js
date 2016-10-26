@@ -19,14 +19,14 @@ app.use(function *(next){
 
 app.use(function *(next){
   if ('/404' == this.path) return;
-  yield next;
+  else yield next;
 })
 
 // destroy
 
 app.use(function *(next){
   if ('/close' == this.path) return this.req.destroy();
-  yield next;
+  else yield next;
 })
 
 // compress the response 1/2 the time to calculate the stream length
