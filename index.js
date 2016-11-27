@@ -33,9 +33,18 @@ var colorCodes = {
 
 /**
  * Development logger.
+ *
+ * @param {object} [opts]
+ * @param {boolean} [opts.disableColor]
  */
 
 function dev(opts) {
+  opts = opts || {};
+
+  if (opts.disableColor) {
+    chalk = new chalk.constructor({enabled: false});
+  }
+
   return function *logger(next) {
     // request
     var start = new Date;
