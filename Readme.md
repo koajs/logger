@@ -6,6 +6,8 @@
 
  Development style logger middleware for [Koa](https://github.com/koajs/koa).
 
+___Notice: `koa-logger@2` supports `koa@2`; if you want to use this module with `koa@1`, please use `koa-logger@1`.___
+
 ```
 <-- GET /
 --> GET / 200 835ms 746b
@@ -26,10 +28,10 @@ $ npm install koa-logger
 ## Example
 
 ```js
-var logger = require('koa-logger')
-var koa = require('koa')
+const logger = require('koa-logger')
+const Koa = require('koa')
 
-var app = koa()
+const app = new Koa()
 app.use(logger())
 ```
 
