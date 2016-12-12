@@ -1,7 +1,10 @@
 {
-  "name": "koa-logger",
-  "description": "Logging middleware for koa",
-  "repository": "koajs/logger",
+  "name": "@dmx/npm-koa-logger",
+  "description": "fork of koa-logger",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dmx-io/npm-koa-logger.git"
+  },
   "version": "1.3.0",
   "keywords": [
     "koa",
