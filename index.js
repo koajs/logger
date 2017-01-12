@@ -28,7 +28,8 @@ var colorCodes = {
   4: 'yellow',
   3: 'cyan',
   2: 'green',
-  1: 'green'
+  1: 'green',
+  0: 'yellow'
 };
 
 /**
