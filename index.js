@@ -77,7 +77,7 @@ function dev(opts) {
     res.once('finish', onfinish);
     res.once('close', onclose);
 
-    function done(event){
+    var done = function done(event) {
       res.removeListener('finish', onfinish);
       res.removeListener('close', onclose);
       log(ctx, start, counter ? counter.length : length, null, event);
