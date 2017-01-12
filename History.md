@@ -1,9 +1,15 @@
 
+1.3.1 / 2017-01-12
+==================
+
+ * add color for code 0
+ * bump deps
+
 1.2.2 / 2014-07-05
 ==================
 
  * fix: stop using octal literals for strict mode
- 
+
 1.2.1 / 2014-05-13
 ==================
 
