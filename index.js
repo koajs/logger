@@ -14,10 +14,17 @@ var chalk = require('chalk');
 var isatty = process.stdout.isTTY;
 
 /**
+ * Default options values
+ */
+
+var defaultLogger = console;
+var defaultLevel = 'log';
+
+/**
  * Expose logger.
  */
 
-module.exports = dev;
+module.exports = middleware;
 
 /**
  * Color map.
@@ -33,14 +40,18 @@ var colorCodes = {
 };
 
 /**
- * Development logger.
+ * Development logger middleware
  */
 
-function dev(opts) {
+function middleware(opts) {
+  opts = opts || {};
+  opts.logger = opts.logger || defaultLogger;
+  opts.level = opts.level || defaultLevel;
+
   return function *logger(next) {
     // request
     var start = new Date;
-    console.log('  ' + chalk.gray('<--')
+    opts.logger[opts.level]('  ' + chalk.gray('<--')
       + ' ' + chalk.bold('%s')
       + ' ' + chalk.gray('%s'),
         this.method,
@@ -50,7 +61,7 @@ function dev(opts) {
       yield next;
     } catch (err) {
       // log uncaught downstream errors
-      log(this, start, null, err);
+      log(opts.logger[opts.level], this, start, null, err);
       throw err;
     }
 
@@ -80,7 +91,7 @@ function dev(opts) {
     function done(event){
       res.removeListener('finish', onfinish);
       res.removeListener('close', onclose);
-      log(ctx, start, counter ? counter.length : length, null, event);
+      log(opts.logger[opts.level], ctx, start, counter ? counter.length : length, null, event);
     }
   }
 }
@@ -89,7 +100,7 @@ function dev(opts) {
  * Log helper.
  */
 
-function log(ctx, start, len, err, event) {
+function log(logFn, ctx, start, len, err, event) {
   // get the status code of the response
   var status = err
     ? (err.status || 500)
@@ -113,7 +124,7 @@ function log(ctx, start, len, err, event) {
     : event === 'close' ? chalk.yellow('-x-')
     : chalk.gray('-->')
 
-  console.log('  ' + upstream
+  logFn('  ' + upstream
     + ' ' + chalk.bold('%s')
     + ' ' + chalk.gray('%s')
     + ' ' + chalk[color]('%s')

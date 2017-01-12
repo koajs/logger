@@ -38,6 +38,11 @@ app.use(logger())
   Recommended that you `.use()` this middleware near the top
   to "wrap" all subsequent middleware.
 
+## Options
+
+* `logger` - an object implementing, at least, a `log` function with variadic arguments. (default `console`)
+* `level` - a string specifying the logger's function name to call. (default `'log'`)
+
 ## License
 
   MIT
