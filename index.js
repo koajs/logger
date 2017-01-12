@@ -66,20 +66,20 @@ function dev(opts) {
         .on('error', this.onerror);
     }
 
-    // log when the response is finished or closed,
+    // log when the response is finished or ends,
     // whichever happens first.
     var ctx = this;
     var res = this.res;
 
     var onfinish = done.bind(null, 'finish');
-    var onclose = done.bind(null, 'close');
+    var onend = done.bind(null, 'end');
 
     res.once('finish', onfinish);
-    res.once('close', onclose);
+    res.once('end', onend);
 
     function done(event){
       res.removeListener('finish', onfinish);
-      res.removeListener('close', onclose);
+      res.removeListener('end', onend);
       log(ctx, start, counter ? counter.length : length, null, event);
     }
   }
@@ -110,7 +110,7 @@ function log(ctx, start, len, err, event) {
   }
 
   var upstream = err ? chalk.red('xxx')
-    : event === 'close' ? chalk.yellow('-x-')
+    : event === 'end' ? chalk.yellow('-x-')
     : chalk.gray('-->')
 
   console.log('  ' + upstream
