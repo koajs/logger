@@ -107,7 +107,7 @@ function log(ctx, start, len, err, event) {
   } else if (null == len) {
     length = '-';
   } else {
-    length = bytes(len);
+    length = bytes(len).toLowerCase();
   }
 
   const upstream = err ? chalk.red('xxx')
