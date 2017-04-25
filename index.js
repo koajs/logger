@@ -38,7 +38,7 @@ const colorCodes = {
  */
 
 function dev(opts) {
-  return function logger(ctx, next) {
+  return async function logger(ctx, next) {
     // request
     const start = new Date;
     console.log('  ' + chalk.gray('<--')
@@ -47,41 +47,41 @@ function dev(opts) {
         ctx.method,
         ctx.originalUrl);
 
-    return next().then(function() {
-
-      // calculate the length of a streaming response
-      // by intercepting the stream with a counter.
-      // only necessary if a content-length header is currently not set.
-      const length = ctx.response.length;
-      const body = ctx.body;
-      let counter;
-      if (null == length && body && body.readable) {
-        ctx.body = body
-          .pipe(counter = Counter())
-          .on('error', ctx.onerror);
-      }
-
-      // log when the response is finished or closed,
-      // whichever happens first.
-      const res = ctx.res;
-
-      const onfinish = done.bind(null, 'finish');
-      const onclose = done.bind(null, 'close');
-
-      res.once('finish', onfinish);
-      res.once('close', onclose);
-
-      function done(event){
-        res.removeListener('finish', onfinish);
-        res.removeListener('close', onclose);
-        log(ctx, start, counter ? counter.length : length, null, event);
-      }
-
-    }, function(err) {
+    try {
+      await next()
+    } catch (err) {
       // log uncaught downstream errors
       log(ctx, start, null, err);
       throw err;
-    });
+    }
+
+    // calculate the length of a streaming response
+    // by intercepting the stream with a counter.
+    // only necessary if a content-length header is currently not set.
+    const length = ctx.response.length;
+    const body = ctx.body;
+    let counter;
+    if (null == length && body && body.readable) {
+      ctx.body = body
+        .pipe(counter = Counter())
+        .on('error', ctx.onerror);
+    }
+
+    // log when the response is finished or closed,
+    // whichever happens first.
+    const res = ctx.res;
+
+    const onfinish = done.bind(null, 'finish');
+    const onclose = done.bind(null, 'close');
+
+    res.once('finish', onfinish);
+    res.once('close', onclose);
+
+    function done(event){
+      res.removeListener('finish', onfinish);
+      res.removeListener('close', onclose);
+      log(ctx, start, counter ? counter.length : length, null, event);
+    }
 
   }
 }
