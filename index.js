@@ -124,7 +124,8 @@ function log(ctx, start, len, err, event) {
       ctx.originalUrl,
       status,
       time(start),
-      length);
+      length,
+      err ? err : '');
 }
 
 /**
