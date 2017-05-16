@@ -13,10 +13,17 @@
     "index.js"
   ],
   "scripts": {
+    "lint": "eslint --fix .",
     "test": "mocha test.js"
   },
   "devDependencies": {
     "chai": "^3.5.0",
+    "eslint": "^3.19.0",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-node": "^4.2.2",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-standard": "^3.0.1",
     "koa": "^2.0.0-alpha.7",
     "koa-route": "^3.2.0",
     "mocha": "^3.2.0",
