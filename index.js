@@ -34,7 +34,7 @@ const colorCodes = {
 function dev (opts) {
   return async function logger (ctx, next) {
     // request
-    const start = new Date()
+    const start = Date.now()
     console.log('  ' + chalk.gray('<--') +
       ' ' + chalk.bold('%s') +
       ' ' + chalk.gray('%s'),
@@ -127,7 +127,7 @@ function log (ctx, start, len, err, event) {
  */
 
 function time (start) {
-  const delta = new Date() - start
+  const delta = Date.now() - start
   return humanize(delta < 10000
     ? delta + 'ms'
     : Math.round(delta / 1000) + 's')
