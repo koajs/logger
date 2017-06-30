@@ -1,4 +1,9 @@
 
+3.0.1 / 2017-06-30
+==================
+
+ * Fixes error 'chalk[color] does not return function' when using custom (#61)
+
 3.0.0 / 2017-05-16
 ==================
 
