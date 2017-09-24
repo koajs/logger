@@ -4,6 +4,7 @@
  */
 
 const Koa = require('koa')
+const Boom = require('boom')
 const _ = require('koa-route')
 const logger = require('./index')
 
@@ -30,6 +31,10 @@ app.use(_.get('/404', function (ctx) {
 app.use(_.get('/500', function (ctx) {
   ctx.status = 500
   ctx.body = 'server error'
+}))
+
+app.use(_.get('/500-boom', function (ctx) {
+    ctx.throw(Boom.badImplementation('terrible implementation'))
 }))
 
 app.use(_.get('/error', function (ctx) {
