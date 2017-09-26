@@ -87,7 +87,7 @@ function dev (opts) {
 function log (ctx, start, len, err, event) {
   // get the status code of the response
   const status = err
-    ? (err.status || 500)
+    ? (err.isBoom ? err.output.statusCode : err.status || 500)
     : (ctx.status || 404)
 
   // set the color of the status code;

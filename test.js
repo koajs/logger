@@ -8,6 +8,7 @@ const chai = require('chai')
 const sinon = require('sinon')
 const sc = require('sinon-chai')
 const request = require('supertest')
+const boom = require('boom');
 chai.use(sc)
 const expect = chai.expect
 
@@ -146,6 +147,23 @@ describe('koa-logger', function () {
         ' ' + chalk.gray('%s'),
           'GET',
           '/error',
+          500,
+          sinon.match.any,
+          '-')
+      done()
+    })
+  })
+  
+  it('should log a 500 response with boom', function (done) {
+    request(app.listen()).get('/500-boom').expect(500, function () {
+      expect(log).to.have.been.calledWith('  ' + chalk.red('xxx') +
+        ' ' + chalk.bold('%s') +
+        ' ' + chalk.gray('%s') +
+        ' ' + chalk.red('%s') +
+        ' ' + chalk.gray('%s') +
+        ' ' + chalk.gray('%s'),
+          'GET',
+          '/500-boom',
           500,
           sinon.match.any,
           '-')
