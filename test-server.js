@@ -34,7 +34,7 @@ app.use(_.get('/500', function (ctx) {
 }))
 
 app.use(_.get('/500-boom', function (ctx) {
-    ctx.throw(Boom.badImplementation('terrible implementation'))
+  ctx.throw(Boom.badImplementation('terrible implementation'))
 }))
 
 app.use(_.get('/error', function (ctx) {
