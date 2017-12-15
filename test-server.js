@@ -8,7 +8,7 @@ const Boom = require('boom')
 const _ = require('koa-route')
 const logger = require('./index')
 
-module.exports = function(opts) {
+module.exports = function (opts) {
   const app = new Koa()
   app.use(logger(opts))
 

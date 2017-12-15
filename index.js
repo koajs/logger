@@ -35,7 +35,7 @@ const colorCodes = {
 
 function dev (opts) {
   // print to console helper.
-  var print = function () {
+  var print = (function () {
     var transporter
     if (typeof opts === 'function') {
       transporter = opts
@@ -44,14 +44,14 @@ function dev (opts) {
     }
 
     return function printFunc (...args) {
-      var str = util.format(...args);
-      if(transporter) {
-        transporter(str, args);
-      }else {
-        console.log(...args);
+      var str = util.format(...args)
+      if (transporter) {
+        transporter(str, args)
+      } else {
+        console.log(...args)
       }
     }
-  }();
+  }())
 
   return async function logger (ctx, next) {
     // request

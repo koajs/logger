@@ -13,19 +13,18 @@ const expect = chai.expect
 
 // test subjects
 const chalk = require('chalk')
-const util = require('util')
 
 let log, sandbox, transporter, app
 let transporterFunc = {
-  blankFunc: function(str, args) {
+  blankFunc: function (str, args) {
     // blankFunc
-  },
+  }
 }
 
 describe('koa-logger', function () {
-  before(function() {
+  before(function () {
     app = require('./test-server')()
-  });
+  })
 
   beforeEach(function () {
     sandbox = sinon.sandbox.create()
@@ -181,17 +180,17 @@ describe('koa-logger', function () {
   })
 })
 
-describe('koa-logger-transporter-direct', function() {
-  before(function() {
-    transporter = function(str, args) {
+describe('koa-logger-transporter-direct', function () {
+  before(function () {
+    transporter = function (str, args) {
       transporterFunc.blankFunc(str, args)
-    };
+    }
     app = require('./test-server')(transporter)
-  });
+  })
 
   beforeEach(function () {
     sandbox = sinon.sandbox.create()
-    log = sandbox.spy(transporterFunc, "blankFunc")
+    log = sandbox.spy(transporterFunc, 'blankFunc')
   })
 
   afterEach(function () {
@@ -210,8 +209,8 @@ describe('koa-logger-transporter-direct', function() {
       expect(log).to.have.been.calledWith(sinon.match.string, ['  ' + chalk.gray('<--') +
         ' ' + chalk.bold('%s') +
         ' ' + chalk.gray('%s'),
-          'HEAD',
-          '/200'])
+        'HEAD',
+        '/200'])
       done()
     })
   })
@@ -231,11 +230,11 @@ describe('koa-logger-transporter-direct', function() {
         ' ' + chalk.green('%s') +
         ' ' + chalk.gray('%s') +
         ' ' + chalk.gray('%s'),
-          'GET',
-          '/200',
-          200,
-          sinon.match.any,
-          '11b'])
+        'GET',
+        '/200',
+        200,
+        sinon.match.any,
+        '11b'])
       done()
     })
   })
@@ -248,11 +247,11 @@ describe('koa-logger-transporter-direct', function() {
         ' ' + chalk.cyan('%s') +
         ' ' + chalk.gray('%s') +
         ' ' + chalk.gray('%s'),
-          'GET',
-          '/301',
-          301,
-          sinon.match.any,
-          '-'])
+        'GET',
+        '/301',
+        301,
+        sinon.match.any,
+        '-'])
       done()
     })
   })
@@ -265,11 +264,11 @@ describe('koa-logger-transporter-direct', function() {
         ' ' + chalk.cyan('%s') +
         ' ' + chalk.gray('%s') +
         ' ' + chalk.gray('%s'),
-          'GET',
-          '/304',
-          304,
-          sinon.match.any,
-          ''])
+        'GET',
+        '/304',
+        304,
+        sinon.match.any,
+        ''])
       done()
     })
   })
@@ -282,11 +281,11 @@ describe('koa-logger-transporter-direct', function() {
         ' ' + chalk.yellow('%s') +
         ' ' + chalk.gray('%s') +
         ' ' + chalk.gray('%s'),
-          'GET',
-          '/404',
-          404,
-          sinon.match.any,
-          '9b'])
+        'GET',
+        '/404',
+        404,
+        sinon.match.any,
+        '9b'])
       done()
     })
   })
@@ -299,11 +298,11 @@ describe('koa-logger-transporter-direct', function() {
         ' ' + chalk.red('%s') +
         ' ' + chalk.gray('%s') +
         ' ' + chalk.gray('%s'),
-          'GET',
-          '/500',
-          500,
-          sinon.match.any,
-          '12b'])
+        'GET',
+        '/500',
+        500,
+        sinon.match.any,
+        '12b'])
       done()
     })
   })
@@ -316,11 +315,11 @@ describe('koa-logger-transporter-direct', function() {
         ' ' + chalk.red('%s') +
         ' ' + chalk.gray('%s') +
         ' ' + chalk.gray('%s'),
-          'GET',
-          '/error',
-          500,
-          sinon.match.any,
-          '-'])
+        'GET',
+        '/error',
+        500,
+        sinon.match.any,
+        '-'])
       done()
     })
   })
@@ -333,27 +332,27 @@ describe('koa-logger-transporter-direct', function() {
         ' ' + chalk.red('%s') +
         ' ' + chalk.gray('%s') +
         ' ' + chalk.gray('%s'),
-          'GET',
-          '/500-boom',
-          500,
-          sinon.match.any,
-          '-'])
+        'GET',
+        '/500-boom',
+        500,
+        sinon.match.any,
+        '-'])
       done()
     })
   })
 })
 
-describe('koa-logger-transporter-opts', function() {
-  before(function() {
-    transporter = function(str, args) {
+describe('koa-logger-transporter-opts', function () {
+  before(function () {
+    transporter = function (str, args) {
       transporterFunc.blankFunc(str, args)
-    };
+    }
     app = require('./test-server')({transporter})
-  });
+  })
 
   beforeEach(function () {
     sandbox = sinon.sandbox.create()
-    log = sandbox.spy(transporterFunc, "blankFunc")
+    log = sandbox.spy(transporterFunc, 'blankFunc')
   })
 
   afterEach(function () {
@@ -372,8 +371,8 @@ describe('koa-logger-transporter-opts', function() {
       expect(log).to.have.been.calledWith(sinon.match.string, ['  ' + chalk.gray('<--') +
         ' ' + chalk.bold('%s') +
         ' ' + chalk.gray('%s'),
-          'HEAD',
-          '/200'])
+        'HEAD',
+        '/200'])
       done()
     })
   })
@@ -393,11 +392,11 @@ describe('koa-logger-transporter-opts', function() {
         ' ' + chalk.green('%s') +
         ' ' + chalk.gray('%s') +
         ' ' + chalk.gray('%s'),
-          'GET',
-          '/200',
-          200,
-          sinon.match.any,
-          '11b'])
+        'GET',
+        '/200',
+        200,
+        sinon.match.any,
+        '11b'])
       done()
     })
   })
@@ -410,11 +409,11 @@ describe('koa-logger-transporter-opts', function() {
         ' ' + chalk.cyan('%s') +
         ' ' + chalk.gray('%s') +
         ' ' + chalk.gray('%s'),
-          'GET',
-          '/301',
-          301,
-          sinon.match.any,
-          '-'])
+        'GET',
+        '/301',
+        301,
+        sinon.match.any,
+        '-'])
       done()
     })
   })
@@ -427,11 +426,11 @@ describe('koa-logger-transporter-opts', function() {
         ' ' + chalk.cyan('%s') +
         ' ' + chalk.gray('%s') +
         ' ' + chalk.gray('%s'),
-          'GET',
-          '/304',
-          304,
-          sinon.match.any,
-          ''])
+        'GET',
+        '/304',
+        304,
+        sinon.match.any,
+        ''])
       done()
     })
   })
@@ -444,11 +443,11 @@ describe('koa-logger-transporter-opts', function() {
         ' ' + chalk.yellow('%s') +
         ' ' + chalk.gray('%s') +
         ' ' + chalk.gray('%s'),
-          'GET',
-          '/404',
-          404,
-          sinon.match.any,
-          '9b'])
+        'GET',
+        '/404',
+        404,
+        sinon.match.any,
+        '9b'])
       done()
     })
   })
@@ -461,11 +460,11 @@ describe('koa-logger-transporter-opts', function() {
         ' ' + chalk.red('%s') +
         ' ' + chalk.gray('%s') +
         ' ' + chalk.gray('%s'),
-          'GET',
-          '/500',
-          500,
-          sinon.match.any,
-          '12b'])
+        'GET',
+        '/500',
+        500,
+        sinon.match.any,
+        '12b'])
       done()
     })
   })
@@ -478,11 +477,11 @@ describe('koa-logger-transporter-opts', function() {
         ' ' + chalk.red('%s') +
         ' ' + chalk.gray('%s') +
         ' ' + chalk.gray('%s'),
-          'GET',
-          '/error',
-          500,
-          sinon.match.any,
-          '-'])
+        'GET',
+        '/error',
+        500,
+        sinon.match.any,
+        '-'])
       done()
     })
   })
@@ -495,11 +494,11 @@ describe('koa-logger-transporter-opts', function() {
         ' ' + chalk.red('%s') +
         ' ' + chalk.gray('%s') +
         ' ' + chalk.gray('%s'),
-          'GET',
-          '/500-boom',
-          500,
-          sinon.match.any,
-          '-'])
+        'GET',
+        '/500-boom',
+        500,
+        sinon.match.any,
+        '-'])
       done()
     })
   })
