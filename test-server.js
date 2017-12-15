@@ -44,5 +44,3 @@ module.exports = function (opts) {
 
   return app
 }
-
-// module.exports = app
