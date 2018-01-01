@@ -32,11 +32,14 @@ const colorCodes = {
  * Development logger.
  */
 
-function dev (opts) {
-  return async function logger (ctx, next) {
+function dev (config) {
+  config = Object.assign({
+    logger: console
+  }, config);
+  return async function logger(ctx, next) {
     // request
     const start = Date.now()
-    console.log('  ' + chalk.gray('<--') +
+    config.logger.log('  ' + chalk.gray('<--') +
       ' ' + chalk.bold('%s') +
       ' ' + chalk.gray('%s'),
         ctx.method,
@@ -46,7 +49,7 @@ function dev (opts) {
       await next()
     } catch (err) {
       // log uncaught downstream errors
-      log(ctx, start, null, err)
+      log(ctx, start, null, err, null, config.logger)
       throw err
     }
 
@@ -58,7 +61,7 @@ function dev (opts) {
     let counter
     if (length == null && body && body.readable) {
       ctx.body = body
-        .pipe(counter = Counter())
+        .pipe(counter = new Counter())
         .on('error', ctx.onerror)
     }
 
@@ -75,7 +78,7 @@ function dev (opts) {
     function done (event) {
       res.removeListener('finish', onfinish)
       res.removeListener('close', onclose)
-      log(ctx, start, counter ? counter.length : length, null, event)
+      log(ctx, start, counter ? counter.length : length, null, event, config.logger)
     }
   }
 }
@@ -84,7 +87,7 @@ function dev (opts) {
  * Log helper.
  */
 
-function log (ctx, start, len, err, event) {
+function log (ctx, start, len, err, event, logger) {
   // get the status code of the response
   const status = err
     ? (err.isBoom ? err.output.statusCode : err.status || 500)
@@ -96,7 +99,7 @@ function log (ctx, start, len, err, event) {
 
   // get the human readable response length
   let length
-  if (~[204, 205, 304].indexOf(status)) {
+  if ([204, 205, 304].indexOf(status) !== -1) {
     length = ''
   } else if (len == null) {
     length = '-'
@@ -108,7 +111,7 @@ function log (ctx, start, len, err, event) {
     : event === 'close' ? chalk.yellow('-x-')
     : chalk.gray('-->')
 
-  console.log('  ' + upstream +
+  logger.log('  ' + upstream +
     ' ' + chalk.bold('%s') +
     ' ' + chalk.gray('%s') +
     ' ' + chalk[color]('%s') +
