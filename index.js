@@ -59,7 +59,7 @@ function dev (config) {
     const length = ctx.response.length
     const body = ctx.body
     let counter
-    if (length === null && body && body.readable) {
+    if (length == null && body && body.readable) {
       ctx.body = body
         .pipe(counter = new Counter())
         .on('error', ctx.onerror)
@@ -101,7 +101,7 @@ function log (ctx, start, len, err, event, logger) {
   let length
   if ([204, 205, 304].indexOf(status) !== -1) {
     length = ''
-  } else if (len === null) {
+  } else if (len == null) {
     length = '-'
   } else {
     length = bytes(len).toLowerCase()
