@@ -7,6 +7,7 @@ const Counter = require('passthrough-counter')
 const humanize = require('humanize-number')
 const bytes = require('bytes')
 const chalk = require('chalk')
+const util = require('util')
 
 /**
  * Expose logger.
@@ -33,10 +34,29 @@ const colorCodes = {
  */
 
 function dev (opts) {
+  // print to console helper.
+  var print = (function () {
+    var transporter
+    if (typeof opts === 'function') {
+      transporter = opts
+    } else if (!!opts && !!opts.transporter) {
+      transporter = opts.transporter
+    }
+
+    return function printFunc (...args) {
+      var str = util.format(...args)
+      if (transporter) {
+        transporter(str, args)
+      } else {
+        console.log(...args)
+      }
+    }
+  }())
+
   return async function logger (ctx, next) {
     // request
     const start = Date.now()
-    console.log('  ' + chalk.gray('<--') +
+    print('  ' + chalk.gray('<--') +
       ' ' + chalk.bold('%s') +
       ' ' + chalk.gray('%s'),
         ctx.method,
@@ -46,7 +66,7 @@ function dev (opts) {
       await next()
     } catch (err) {
       // log uncaught downstream errors
-      log(ctx, start, null, err)
+      log(print, ctx, start, null, err)
       throw err
     }
 
@@ -75,7 +95,7 @@ function dev (opts) {
     function done (event) {
       res.removeListener('finish', onfinish)
       res.removeListener('close', onclose)
-      log(ctx, start, counter ? counter.length : length, null, event)
+      log(print, ctx, start, counter ? counter.length : length, null, event)
     }
   }
 }
@@ -84,7 +104,7 @@ function dev (opts) {
  * Log helper.
  */
 
-function log (ctx, start, len, err, event) {
+function log (print, ctx, start, len, err, event) {
   // get the status code of the response
   const status = err
     ? (err.isBoom ? err.output.statusCode : err.status || 500)
@@ -108,7 +128,7 @@ function log (ctx, start, len, err, event) {
     : event === 'close' ? chalk.yellow('-x-')
     : chalk.gray('-->')
 
-  console.log('  ' + upstream +
+  print('  ' + upstream +
     ' ' + chalk.bold('%s') +
     ' ' + chalk.gray('%s') +
     ' ' + chalk[color]('%s') +

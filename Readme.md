@@ -40,6 +40,30 @@ app.use(logger())
   Recommended that you `.use()` this middleware near the top
   to "wrap" all subsequent middleware.
 
+## Use Custom Transporter
+
+```js
+const logger = require('koa-logger')
+const Koa = require('koa')
+
+const app = new Koa()
+app.use(logger((str, args) => {
+  // redirect koa logger to other output pipe
+  // default is process.stdout(by console.log function)
+}))
+```
+or
+```js
+app.use(logger({
+  transporter: (str, args) => {
+    // ...
+  }
+}))
+```
+
+  Param `str` is output string with ANSI Color, and you can get pure text with other modules like `strip-ansi`  
+  Param `args` is a array by `[format, method, url, status, time, length]`
+
 ## License
 
   MIT
