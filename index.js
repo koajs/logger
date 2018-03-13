@@ -1,3 +1,4 @@
+
 /**
  * Module dependencies.
  */
@@ -35,16 +36,16 @@ const colorCodes = {
 
 function dev (opts) {
   // print to console helper.
-  var print = (function () {
-    var transporter
+  const print = (function () {
+    let transporter
     if (typeof opts === 'function') {
       transporter = opts
-    } else if (!!opts && !!opts.transporter) {
+    } else if (opts && opts.transporter) {
       transporter = opts.transporter
     }
 
     return function printFunc (...args) {
-      var str = util.format(...args)
+      let str = util.format(...args)
       if (transporter) {
         transporter(str, args)
       } else {
