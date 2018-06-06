@@ -30,11 +30,21 @@ const colorCodes = {
   0: 'yellow'
 }
 
+var coloredOutput = true
+
+function colorizeOutput(str, colorFunc) {
+  let output = str
+  if (coloredOutput) {
+    return colorFunc(str)
+  }
+  return output
+}
+
 /**
  * Development logger.
  */
 
-function dev (opts) {
+function dev (opts, config = {}) {
   // print to console helper.
   const print = (function () {
     let transporter
@@ -43,7 +53,12 @@ function dev (opts) {
     } else if (opts && opts.transporter) {
       transporter = opts.transporter
     }
-
+    if (config && typeof config === 'object') {
+      if (typeof config.coloredOutput === 'boolean') {
+        coloredOutput = config.coloredOutput
+      }
+    }
+ 
     return function printFunc (...args) {
       let str = util.format(...args)
       if (transporter) {
@@ -57,9 +72,9 @@ function dev (opts) {
   return async function logger (ctx, next) {
     // request
     const start = Date.now()
-    print('  ' + chalk.gray('<--') +
-      ' ' + chalk.bold('%s') +
-      ' ' + chalk.gray('%s'),
+    print('  ' + colorizeOutput('<--', chalk.gray) +
+      ' ' + colorizeOutput('%s', chalk.bold) +
+      ' ' + colorizeOutput('%s', chalk.gray),
         ctx.method,
         ctx.originalUrl)
 
@@ -125,16 +140,16 @@ function log (print, ctx, start, len, err, event) {
     length = bytes(len).toLowerCase()
   }
 
-  const upstream = err ? chalk.red('xxx')
-    : event === 'close' ? chalk.yellow('-x-')
-    : chalk.gray('-->')
+  const upstream = err ? colorizeOutput('xxx', chalk.red)
+    : event === 'close' ? colorizeOutput('-x-', chalk.yellow)
+    : colorizeOutput('-->', chalk.gray)
 
   print('  ' + upstream +
-    ' ' + chalk.bold('%s') +
-    ' ' + chalk.gray('%s') +
-    ' ' + chalk[color]('%s') +
-    ' ' + chalk.gray('%s') +
-    ' ' + chalk.gray('%s'),
+    ' ' + colorizeOutput('%s', chalk.bold) +
+    ' ' + colorizeOutput('%s', chalk.gray) +
+    ' ' + colorizeOutput('%s', chalk[color]) +
+    ' ' + colorizeOutput('%s', chalk.gray) +
+    ' ' + colorizeOutput('%s', chalk.gray),
       ctx.method,
       ctx.originalUrl,
       status,
