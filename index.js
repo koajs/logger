@@ -56,9 +56,16 @@ function dev (opts) {
 
   return async function logger (ctx, next) {
     // request
-    const start = Date.now();
-      print('  ' + chalk.gray('<--') + ' ' + chalk.bold('%s') + ' ' + chalk.bold('%s') + ' ' + chalk.gray('%s'), ctx.request.ip ,ctx.method, ctx.originalUrl);
-
+      const start = Date.now();
+      try {
+          print('  ' + chalk.gray('<--') + ' ' + chalk.bold('%s') + ' ' + chalk.bold('%s') + ' ' + chalk.gray('%s'), ctx.request.ip, ctx.method, ctx.originalUrl);
+      } catch (e) {
+          print('  ' + chalk.gray('<--') +
+              ' ' + chalk.bold('%s') +
+              ' ' + chalk.gray('%s'),
+              ctx.method,
+              ctx.originalUrl);
+      }
     try {
       await next()
     } catch (err) {
