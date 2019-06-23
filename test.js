@@ -89,7 +89,7 @@ describe('koa-logger', function () {
           '/301',
           301,
           sinon.match.any,
-          '-')
+          '17b')
       done()
     })
   })
@@ -251,7 +251,7 @@ describe('koa-logger-transporter-direct', function () {
         '/301',
         301,
         sinon.match.any,
-        '-'])
+        '17b'])
       done()
     })
   })
@@ -413,7 +413,7 @@ describe('koa-logger-transporter-opts', function () {
         '/301',
         301,
         sinon.match.any,
-        '-'])
+        '17b'])
       done()
     })
   })
