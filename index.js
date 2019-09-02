@@ -57,8 +57,14 @@ function dev (opts) {
   return async function logger (ctx, next) {
     // request
     const start = ctx[Symbol.for('request-received.startTime')] ? ctx[Symbol.for('request-received.startTime')].getTime() : Date.now()
-    print('  ' + chalk.gray('<--') + ' ' + chalk.bold('%s') + ' ' + chalk.bold('%s') + ' ' + chalk.gray('%s'), ctx.request.ip, ctx.method, ctx.originalUrl)
-    
+    print('  ' + chalk.gray('<--') +
+      ' ' + chalk.bold('%s') +
+      ' ' + chalk.bold('%s') +
+      ' ' + chalk.gray('%s'),
+    ctx.request.ip,
+    ctx.method,
+    ctx.originalUrl)
+        
     try {
       await next()
     } catch (err) {
