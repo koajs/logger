@@ -45,7 +45,7 @@ function dev (opts) {
     }
 
     return function printFunc (...args) {
-      let str = util.format(...args)
+      const str = util.format(...args)
       if (transporter) {
         transporter(str, args)
       } else {
@@ -56,16 +56,9 @@ function dev (opts) {
 
   return async function logger (ctx, next) {
     // request
-      const start = Date.now();
-      try {
-          print('  ' + chalk.gray('<--') + ' ' + chalk.bold('%s') + ' ' + chalk.bold('%s') + ' ' + chalk.gray('%s'), ctx.request.ip, ctx.method, ctx.originalUrl);
-      } catch (e) {
-          print('  ' + chalk.gray('<--') +
-              ' ' + chalk.bold('%s') +
-              ' ' + chalk.gray('%s'),
-              ctx.method,
-              ctx.originalUrl);
-      }
+    const start = ctx[Symbol.for('request-received.startTime')] ? ctx[Symbol.for('request-received.startTime')].getTime() : Date.now()
+    print('  ' + chalk.gray('<--') + ' ' + chalk.bold('%s') + ' ' + chalk.bold('%s') + ' ' + chalk.gray('%s'), ctx.request.ip, ctx.method, ctx.originalUrl)
+    
     try {
       await next()
     } catch (err) {
@@ -116,7 +109,8 @@ function log (print, ctx, start, len, err, event) {
 
   // set the color of the status code;
   const s = status / 100 | 0
-  const color = colorCodes.hasOwnProperty(s) ? colorCodes[s] : 0
+  // eslint-disable-next-line
+  const color = colorCodes.hasOwnProperty(s) ? colorCodes[s] : colorCodes[0]
 
   // get the human readable response length
   let length
@@ -130,7 +124,7 @@ function log (print, ctx, start, len, err, event) {
 
   const upstream = err ? chalk.red('xxx')
     : event === 'close' ? chalk.yellow('-x-')
-    : chalk.gray('-->')
+      : chalk.gray('-->')
 
   print('  ' + upstream +
     ' ' + chalk.bold('%s') +
@@ -138,11 +132,11 @@ function log (print, ctx, start, len, err, event) {
     ' ' + chalk[color]('%s') +
     ' ' + chalk.gray('%s') +
     ' ' + chalk.gray('%s'),
-      ctx.method,
-      ctx.originalUrl,
-      status,
-      time(start),
-      length)
+  ctx.method,
+  ctx.originalUrl,
+  status,
+  time(start),
+  length)
 }
 
 /**
