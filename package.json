@@ -2,7 +2,7 @@
   "name": "koa-logger",
   "description": "Logging middleware for koa",
   "repository": "koajs/logger",
-  "version": "3.2.0",
+  "version": "3.2.1",
   "keywords": [
     "koa",
     "middleware",
@@ -14,28 +14,29 @@
   ],
   "scripts": {
     "lint": "eslint --fix .",
-    "test": "mocha test.js"
+    "test": "mocha test.js --exit"
   },
   "devDependencies": {
-    "boom": "^5.2.0",
-    "chai": "^3.5.0",
-    "eslint": "^3.19.0",
-    "eslint-config-standard": "^10.2.1",
-    "eslint-plugin-import": "^2.2.0",
-    "eslint-plugin-node": "^4.2.2",
-    "eslint-plugin-promise": "^3.5.0",
-    "eslint-plugin-standard": "^3.0.1",
-    "koa": "^2.0.0-alpha.7",
+    "boom": "^7.3.0",
+    "chai": "^4.2.0",
+    "eslint": "^6.0.1",
+    "eslint-config-standard": "^13.0.1",
+    "eslint-plugin-import": "^2.18.0",
+    "eslint-plugin-node": "^9.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.0",
+    "koa": "^2.7.0",
+    "koa-compress": "^3.0.0",
     "koa-route": "^3.2.0",
-    "mocha": "^3.2.0",
-    "sinon": "^1.17.7",
-    "sinon-chai": "^2.8.0",
-    "supertest": "^2.0.1"
+    "mocha": "^6.1.4",
+    "sinon": "^7.3.2",
+    "sinon-chai": "^3.3.0",
+    "supertest": "^4.0.2"
   },
   "license": "MIT",
   "dependencies": {
-    "bytes": "^2.5.0",
-    "chalk": "^1.1.3",
+    "bytes": "^3.1.0",
+    "chalk": "^2.4.2",
     "humanize-number": "0.0.2",
     "passthrough-counter": "^1.0.0"
   },
