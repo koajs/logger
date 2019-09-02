@@ -46,6 +46,7 @@ describe('koa-logger', function () {
     request(app.listen()).head('/200').expect(200, function () {
       expect(log).to.have.been.calledWith('  ' + chalk.gray('<--') +
         ' ' + chalk.bold('%s') +
+        ' ' + chalk.bold('%s') +
         ' ' + chalk.gray('%s'),
       'HEAD',
       '/200')
@@ -208,6 +209,7 @@ describe('koa-logger-transporter-direct', function () {
     request(app.listen()).head('/200').expect(200, function () {
       expect(log).to.have.been.calledWith(sinon.match.string, ['  ' + chalk.gray('<--') +
         ' ' + chalk.bold('%s') +
+        ' ' + chalk.bold('%s') +
         ' ' + chalk.gray('%s'),
       'HEAD',
       '/200'])
@@ -369,6 +371,7 @@ describe('koa-logger-transporter-opts', function () {
   it('should log a request with correct method and url', function (done) {
     request(app.listen()).head('/200').expect(200, function () {
       expect(log).to.have.been.calledWith(sinon.match.string, ['  ' + chalk.gray('<--') +
+        ' ' + chalk.bold('%s') +
         ' ' + chalk.bold('%s') +
         ' ' + chalk.gray('%s'),
       'HEAD',
