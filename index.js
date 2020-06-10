@@ -52,6 +52,7 @@ module.exports = function (options) {
       ctx.originalUrl
     );
 
+
     try {
       await next();
     } catch (err) {
