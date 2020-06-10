@@ -61,10 +61,9 @@ function dev (opts) {
       ' ' + chalk.bold('%s') +
       ' ' + chalk.bold('%s') +
       ' ' + chalk.gray('%s'),
-      ctx.request.ip,
       ctx.method,
-      ctx.originalUrl
-    )
+      ctx.originalUrl,
+      ctx.request.ip)
 
     
     try {
