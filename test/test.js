@@ -283,7 +283,8 @@ describe('koa-logger-transporter-direct', function () {
     request(app.listen())
       .get('/200')
       .expect(200, 'hello world', function () {
-      expect(log).to.have.been.called 
+        expect(log).to.have.been.called;
+        done();
       });
   });
 
