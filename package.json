@@ -69,7 +69,10 @@
       "node/no-deprecated-api": "off",
       "no-unused-vars": "off",
       "no-prototype-builtins": "off",
-      "prefer-rest-params": "off"
+      "prefer-rest-params": "off",
+      "max-params": "off",
+      "no-eq-null" : "off",
+      "eqeqeq": "off"
     }
   },
   "engines": {
