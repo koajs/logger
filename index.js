@@ -20,12 +20,12 @@ const colorCodes = {
 module.exports = function (options) {
   // print to console helper.
   const print = (function () {
-    const transporter =
-      typeof options === 'function'
-        ? options
-        : options && options.transporter
-        ? options.transporter
-        : undefined;
+    let transporter;
+    if (typeof options === 'function') {
+      transporter = options;
+    } else if (options && options.transporter) {
+      transporter = options.transporter;
+    }
 
     // eslint-disable-next-line func-names
     return function printFunc(...args) {
@@ -90,7 +90,6 @@ module.exports = function (options) {
 };
 
 // Log helper.
-// eslint-disable-next-line max-params
 function log(print, ctx, start, length_, err, event) {
   // get the status code of the response
   const status = err
@@ -106,8 +105,7 @@ function log(print, ctx, start, length_, err, event) {
   // get the human readable response length
   const length = [204, 205, 304].includes(status)
     ? ''
-    : // eslint-disable-next-line eqeqeq
-    length_ == null // eslint-disable-line no-eq-null
+    : length_ == null
     ? '-'
     : bytes(length_).toLowerCase();
 
