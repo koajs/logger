@@ -1,46 +1,85 @@
 {
   "name": "koa-logger",
   "description": "Logging middleware for koa",
-  "repository": "koajs/logger",
   "version": "3.2.1",
+  "main": "index.js",
+  "files": [
+    "index.js"
+  ],
+  "scripts": {
+    "lint": "xo",
+    "pretest": "npm run lint",
+    "test": "mocha --exit",
+    "precoverage": "rimraf .nyc_output coverage",
+    "coverage": "nyc npm run test",
+    "preci": "echo start CI ........",
+    "ci": "npm run coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/koajs/logger"
+  },
   "keywords": [
     "koa",
     "middleware",
     "logger",
     "log"
   ],
-  "files": [
-    "index.js"
+  "author": "Christoffer Hallas <christoffer.hallas@icloud.com>",
+  "contributors": [
+    "3imed-jaberi <imed_jebari@hotmail.fr> (https://www.3imed-jaberi.com)"
   ],
-  "scripts": {
-    "lint": "eslint --fix .",
-    "test": "mocha test.js --exit"
+  "license": "MIT",
+  "dependencies": {
+    "bytes": "^3.1.0",
+    "chalk": "^4.1.0",
+    "humanize-number": "^0.0.2",
+    "passthrough-counter": "^1.0.0"
   },
   "devDependencies": {
     "boom": "^7.3.0",
     "chai": "^4.2.0",
-    "eslint": "^6.0.1",
-    "eslint-config-standard": "^13.0.1",
-    "eslint-plugin-import": "^2.18.0",
-    "eslint-plugin-node": "^9.1.0",
-    "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-standard": "^4.0.0",
-    "koa": "^2.7.0",
-    "koa-compress": "^3.0.0",
+    "eslint-config-xo-lass": "^1.0.3",
+    "koa": "^2.12.1",
+    "koa-compress": "^4.0.1",
     "koa-route": "^3.2.0",
-    "mocha": "^6.1.4",
-    "sinon": "^7.3.2",
-    "sinon-chai": "^3.3.0",
-    "supertest": "^4.0.2"
+    "mocha": "^8.0.1",
+    "nyc": "^15.1.0",
+    "sinon": "^9.0.2",
+    "sinon-chai": "^3.5.0",
+    "supertest": "^4.0.2",
+    "xo": "^0.32.0"
   },
-  "license": "MIT",
-  "dependencies": {
-    "bytes": "^3.1.0",
-    "chalk": "^2.4.2",
-    "humanize-number": "0.0.2",
-    "passthrough-counter": "^1.0.0"
+  "prettier": {
+    "singleQuote": true,
+    "bracketSpacing": true,
+    "trailingComma": "none"
+  },
+  "xo": {
+    "prettier": true,
+    "space": true,
+    "extends": [
+      "xo-lass"
+    ],
+    "ignore": [
+      "test",
+      "example.js"
+    ],
+    "rules": {
+      "node/no-deprecated-api": "off",
+      "no-unused-vars": "off",
+      "no-prototype-builtins": "off",
+      "prefer-rest-params": "off",
+      "max-params": "off",
+      "no-eq-null" : "off",
+      "eqeqeq": "off"
+    }
   },
   "engines": {
-    "node": ">= 7.6.0"
+    "node": ">= 10"
+  },
+  "homepage": "https://github.com/koajs/logger",
+  "bugs": {
+    "url": "https://github.com/koajs/logger/issues"
   }
 }
