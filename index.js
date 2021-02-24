@@ -56,6 +56,7 @@ module.exports = function (options) {
     );
 
 
+
     try {
       await next();
     } catch (err) {
