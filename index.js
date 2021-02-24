@@ -48,6 +48,9 @@ module.exports = function (options) {
         chalk.bold('%s') +
         ' ' +
         chalk.gray('%s'),
+        ' ' +
+        chalk.gray('%s'),
+      ctx.request.ip,
       ctx.method,
       ctx.originalUrl
     );
@@ -122,6 +125,8 @@ function log(print, ctx, start, length_, err, event) {
       ' ' +
       chalk.bold('%s') +
       ' ' +
+      chalk.bold('%s') +
+      ' ' +
       chalk.gray('%s') +
       ' ' +
       chalk[color]('%s') +
@@ -129,6 +134,7 @@ function log(print, ctx, start, length_, err, event) {
       chalk.gray('%s') +
       ' ' +
       chalk.gray('%s'),
+    ctx.request.ip,
     ctx.method,
     ctx.originalUrl,
     status,
