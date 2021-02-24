@@ -55,6 +55,8 @@ describe('koa-logger', function () {
             chalk.bold('%s') +
             ' ' +
             chalk.gray('%s'),
+            ' ' +
+            chalk.gray('%s'),
           'HEAD',
           '/200'
         );
@@ -78,6 +80,8 @@ describe('koa-logger', function () {
         expect(log).to.have.been.calledWith(
           '  ' +
             chalk.gray('-->') +
+            ' ' +
+            chalk.bold('%s') +
             ' ' +
             chalk.bold('%s') +
             ' ' +
@@ -108,6 +112,8 @@ describe('koa-logger', function () {
             ' ' +
             chalk.bold('%s') +
             ' ' +
+            chalk.bold('%s') +
+            ' ' +
             chalk.gray('%s') +
             ' ' +
             chalk.cyan('%s') +
@@ -132,6 +138,8 @@ describe('koa-logger', function () {
         expect(log).to.have.been.calledWith(
           '  ' +
             chalk.gray('-->') +
+            ' ' +
+            chalk.bold('%s') +
             ' ' +
             chalk.bold('%s') +
             ' ' +
@@ -162,6 +170,8 @@ describe('koa-logger', function () {
             ' ' +
             chalk.bold('%s') +
             ' ' +
+            chalk.bold('%s') +
+            ' ' +
             chalk.gray('%s') +
             ' ' +
             chalk.yellow('%s') +
@@ -186,6 +196,8 @@ describe('koa-logger', function () {
         expect(log).to.have.been.calledWith(
           '  ' +
             chalk.gray('-->') +
+            ' ' +
+            chalk.bold('%s') +
             ' ' +
             chalk.bold('%s') +
             ' ' +
@@ -216,6 +228,8 @@ describe('koa-logger', function () {
             ' ' +
             chalk.bold('%s') +
             ' ' +
+            chalk.bold('%s') +
+            ' ' +
             chalk.gray('%s') +
             ' ' +
             chalk.red('%s') +
@@ -240,6 +254,8 @@ describe('koa-logger', function () {
         expect(log).to.have.been.calledWith(
           '  ' +
             chalk.red('xxx') +
+            ' ' +
+            chalk.bold('%s') +
             ' ' +
             chalk.bold('%s') +
             ' ' +
@@ -299,6 +315,8 @@ describe('koa-logger-transporter-direct', function () {
             chalk.bold('%s') +
             ' ' +
             chalk.gray('%s'),
+            ' ' +
+            chalk.gray('%s'),
           'HEAD',
           '/200'
         ]);
@@ -322,6 +340,8 @@ describe('koa-logger-transporter-direct', function () {
         expect(log).to.have.been.calledWith(sinon.match.string, [
           '  ' +
             chalk.gray('-->') +
+            ' ' +
+            chalk.bold('%s') +
             ' ' +
             chalk.bold('%s') +
             ' ' +
@@ -352,6 +372,8 @@ describe('koa-logger-transporter-direct', function () {
             ' ' +
             chalk.bold('%s') +
             ' ' +
+            chalk.bold('%s') +
+            ' ' +
             chalk.gray('%s') +
             ' ' +
             chalk.cyan('%s') +
@@ -376,6 +398,8 @@ describe('koa-logger-transporter-direct', function () {
         expect(log).to.have.been.calledWith(sinon.match.string, [
           '  ' +
             chalk.gray('-->') +
+            ' ' +
+            chalk.bold('%s') +
             ' ' +
             chalk.bold('%s') +
             ' ' +
@@ -406,6 +430,8 @@ describe('koa-logger-transporter-direct', function () {
             ' ' +
             chalk.bold('%s') +
             ' ' +
+            chalk.bold('%s') +
+            ' ' +
             chalk.gray('%s') +
             ' ' +
             chalk.yellow('%s') +
@@ -430,6 +456,8 @@ describe('koa-logger-transporter-direct', function () {
         expect(log).to.have.been.calledWith(sinon.match.string, [
           '  ' +
             chalk.gray('-->') +
+            ' ' +
+            chalk.bold('%s') +
             ' ' +
             chalk.bold('%s') +
             ' ' +
@@ -460,6 +488,8 @@ describe('koa-logger-transporter-direct', function () {
             ' ' +
             chalk.bold('%s') +
             ' ' +
+            chalk.bold('%s') +
+            ' ' +
             chalk.gray('%s') +
             ' ' +
             chalk.red('%s') +
@@ -484,6 +514,8 @@ describe('koa-logger-transporter-direct', function () {
         expect(log).to.have.been.calledWith(sinon.match.string, [
           '  ' +
             chalk.red('xxx') +
+            ' ' +
+            chalk.bold('%s') +
             ' ' +
             chalk.bold('%s') +
             ' ' +
@@ -543,6 +575,8 @@ describe('koa-logger-transporter-opts', function () {
             chalk.bold('%s') +
             ' ' +
             chalk.gray('%s'),
+            ' ' +
+            chalk.gray('%s'),
           'HEAD',
           '/200'
         ]);
@@ -566,6 +600,8 @@ describe('koa-logger-transporter-opts', function () {
         expect(log).to.have.been.calledWith(sinon.match.string, [
           '  ' +
             chalk.gray('-->') +
+            ' ' +
+            chalk.bold('%s') +
             ' ' +
             chalk.bold('%s') +
             ' ' +
@@ -596,6 +632,8 @@ describe('koa-logger-transporter-opts', function () {
             ' ' +
             chalk.bold('%s') +
             ' ' +
+            chalk.bold('%s') +
+            ' ' +
             chalk.gray('%s') +
             ' ' +
             chalk.cyan('%s') +
@@ -620,6 +658,8 @@ describe('koa-logger-transporter-opts', function () {
         expect(log).to.have.been.calledWith(sinon.match.string, [
           '  ' +
             chalk.gray('-->') +
+            ' ' +
+            chalk.bold('%s') +
             ' ' +
             chalk.bold('%s') +
             ' ' +
@@ -650,6 +690,8 @@ describe('koa-logger-transporter-opts', function () {
             ' ' +
             chalk.bold('%s') +
             ' ' +
+            chalk.bold('%s') +
+            ' ' +
             chalk.gray('%s') +
             ' ' +
             chalk.yellow('%s') +
@@ -674,6 +716,8 @@ describe('koa-logger-transporter-opts', function () {
         expect(log).to.have.been.calledWith(sinon.match.string, [
           '  ' +
             chalk.gray('-->') +
+            ' ' +
+            chalk.bold('%s') +
             ' ' +
             chalk.bold('%s') +
             ' ' +
@@ -704,6 +748,8 @@ describe('koa-logger-transporter-opts', function () {
             ' ' +
             chalk.bold('%s') +
             ' ' +
+            chalk.bold('%s') +
+            ' ' +
             chalk.gray('%s') +
             ' ' +
             chalk.red('%s') +
@@ -728,6 +774,8 @@ describe('koa-logger-transporter-opts', function () {
         expect(log).to.have.been.calledWith(sinon.match.string, [
           '  ' +
             chalk.red('xxx') +
+            ' ' +
+            chalk.bold('%s') +
             ' ' +
             chalk.bold('%s') +
             ' ' +
