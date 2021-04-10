@@ -40,7 +40,7 @@ module.exports = function (options) {
     // request
     const start = ctx[Symbol.for('request-received.startTime')]
       ? ctx[Symbol.for('request-received.startTime')].getTime()
-      : Date.now();
+      : process.hrtime();
     print(
       '  ' +
         chalk.gray('<--') +
@@ -142,7 +142,8 @@ function log(print, ctx, start, length_, err, event) {
  * in seconds otherwise.
  */
 function time(start) {
-  const delta = Date.now() - start;
+  let delta = process.hrtime(start);
+  delta = Math.round(delta[0] * 1000 + delta[1] / 1000000);
   return humanize(
     delta < 10000 ? delta + 'ms' : Math.round(delta / 1000) + 's'
   );
