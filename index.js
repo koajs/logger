@@ -69,7 +69,7 @@ module.exports = function (options) {
     } = ctx;
     let counter;
     if (length === null && body && body.readable)
-      ctx.body = body.pipe((counter = counterFunc())).on('error', ctx.onerror);
+      body.pipe((counter = counterFunc())).on('error', ctx.onerror);
 
     // log when the response is finished or closed,
     // whichever happens first.
