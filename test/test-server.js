@@ -1,6 +1,7 @@
 const Koa = require('koa');
 const Boom = require('boom');
 const _ = require('koa-route');
+const { Readable } = require('stream');
 const logger = require('..');
 
 module.exports = function (options) {
@@ -10,6 +11,12 @@ module.exports = function (options) {
   app.use(
     _.get('/200', function (ctx) {
       ctx.body = 'hello world';
+    })
+  );
+
+  app.use(
+    _.get('/200-stream', function (ctx) {
+      ctx.body = Readable.from(['hello world']);
     })
   );
 

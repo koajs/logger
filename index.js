@@ -1,6 +1,6 @@
 'use strict';
 
-const counterFunc = require('passthrough-counter');
+const Counter = require('passthrough-counter');
 const humanize = require('humanize-number');
 const bytes = require('bytes');
 const chalk = require('chalk');
@@ -68,8 +68,8 @@ module.exports = function (options) {
       response: { length }
     } = ctx;
     let counter;
-    if (length === null && body && body.readable)
-      ctx.body = body.pipe((counter = counterFunc())).on('error', ctx.onerror);
+    if (length == null && body && body.readable)
+      counter = body.pipe(new Counter()).on('error', ctx.onerror);
 
     // log when the response is finished or closed,
     // whichever happens first.
