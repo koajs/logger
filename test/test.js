@@ -98,6 +98,35 @@ describe('koa-logger', function () {
       });
   });
 
+  
+
+  it('should log a 200 response for stream', function (done) {
+    request(app.listen())
+      .get('/200-stream')
+      .expect(200, function () {
+        expect(log).to.have.been.calledWith(
+          '  ' +
+            chalk.gray('-->') +
+            ' ' +
+            chalk.bold('%s') +
+            ' ' +
+            chalk.gray('%s') +
+            ' ' +
+            chalk.green('%s') +
+            ' ' +
+            chalk.gray('%s') +
+            ' ' +
+            chalk.gray('%s'),
+          'GET',
+          '/200-stream',
+          200,
+          sinon.match.any,
+          '11b'
+        );
+        done();
+      });
+  });
+
   it('should log a 301 response', function (done) {
     request(app.listen())
       .get('/301')
