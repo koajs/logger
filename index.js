@@ -63,13 +63,9 @@ module.exports = function (options) {
     // calculate the length of a streaming response
     // by intercepting the stream with a counter.
     // only necessary if a content-length header is currently not set.
-    const {
-      body,
-      response: { length }
-    } = ctx;
     let counter;
-    if (length == null && body && body.readable)
-      counter = body.pipe(new Counter()).on('error', ctx.onerror);
+    if (ctx.response.length == null && ctx.body && ctx.body.readable)
+      counter = ctx.body.pipe(new Counter()).on('error', ctx.onerror);
 
     // log when the response is finished or closed,
     // whichever happens first.
@@ -82,15 +78,16 @@ module.exports = function (options) {
     res.once('close', onclose);
 
     function done(event) {
+      const length = counter ? counter.length : ctx.response.length;
       res.removeListener('finish', onfinish);
       res.removeListener('close', onclose);
-      log(print, ctx, start, counter ? counter.length : length, null, event);
+      log(print, ctx, start, length, null, event);
     }
   };
 };
 
 // Log helper.
-function log(print, ctx, start, length_, err, event) {
+function log(print, ctx, start, length, err, event) {
   // get the status code of the response
   const status = err
     ? err.isBoom
@@ -103,11 +100,11 @@ function log(print, ctx, start, length_, err, event) {
   const color = colorCodes.hasOwnProperty(s) ? colorCodes[s] : colorCodes[0];
 
   // get the human readable response length
-  const length = [204, 205, 304].includes(status)
+  const formattedLength = [204, 205, 304].includes(status)
     ? ''
-    : length_ == null
+    : length == null
     ? '-'
-    : bytes(length_).toLowerCase();
+    : bytes(length).toLowerCase();
 
   const upstream = err
     ? chalk.red('xxx')
@@ -132,7 +129,7 @@ function log(print, ctx, start, length_, err, event) {
     ctx.originalUrl,
     status,
     time(start),
-    length
+    formattedLength
   );
 }
 
