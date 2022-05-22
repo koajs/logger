@@ -98,8 +98,6 @@ describe('koa-logger', function () {
       });
   });
 
-  
-
   it('should log a 200 response for stream', function (done) {
     request(app.listen())
       .get('/200-stream')
