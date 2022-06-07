@@ -17,6 +17,18 @@ const colorCodes = {
   0: 'yellow'
 };
 
+/** @typedef {import("koa").Middleware} Middleware */
+/** @typedef {[string, string, string, string, number, number]} TransporterArgs */
+/** @typedef {(string: string, args: TransporterArgs) => void} TransporterFunc */
+/**
+ * @typedef {Object} KoaLoggerConfig
+ * @property {TransporterFunc} transporter
+ */
+
+/**
+ * @param {KoaLoggerConfig | TransporterFunc} options
+ * @returns {Middleware} Koa Middleware
+ */
 module.exports = function (options) {
   // print to console helper.
   const print = (function () {
