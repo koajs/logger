@@ -28,9 +28,9 @@ module.exports = function (options) {
     }
 
     // eslint-disable-next-line func-names
-    return function printFunc(...args) {
+    return function printFunc(ctx, ...args) {
       const string = util.format(...args);
-      if (transporter) transporter(string, args);
+      if (transporter) transporter(string, args, ctx);
       else console.log(...args);
     };
   })();
@@ -42,6 +42,7 @@ module.exports = function (options) {
       ? ctx[Symbol.for('request-received.startTime')].getTime()
       : Date.now();
     print(
+      ctx,
       '  ' +
         chalk.gray('<--') +
         ' ' +
@@ -116,6 +117,7 @@ function log(print, ctx, start, length_, err, event) {
     : chalk.gray('-->');
 
   print(
+    ctx,
     '  ' +
       upstream +
       ' ' +
