@@ -1,0 +1,11 @@
+{
+  "prettier": true,
+  "space": true,
+  "extends": ["xo-lass"],
+  "rules": {
+    "max-params": "off",
+    "no-bitwise": "off",
+    "unicorn/prefer-math-trunc": "off",
+    "n/no-unsupported-features/node-builtins": "off"
+  }
+}
