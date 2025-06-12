@@ -1,6 +1,7 @@
 'use strict';
 
 const util = require('node:util');
+const onFinished = require('on-finished');
 const Counter = require('passthrough-counter');
 const humanize = require('humanize-number');
 const bytes = require('bytes');
@@ -143,18 +144,11 @@ function koaLogger(options) {
 
     // log when the response is finished or closed,
     // whichever happens first.
-    const onfinish = done.bind(null, 'finish');
-    const onclose = done.bind(null, 'close');
-
-    ctx.res.once('finish', onfinish);
-    ctx.res.once('close', onclose);
-
-    function done(event) {
+    onFinished(ctx.res, (error) => {
+      const event = error ? 'close' : 'finish';
       const length = counter ? counter.length : ctx.response.length;
-      ctx.res.removeListener('finish', onfinish);
-      ctx.res.removeListener('close', onclose);
       log(print, ctx, start, length, null, event);
-    }
+    });
   };
 }
 

@@ -36,6 +36,7 @@
     "bytes": "^3.1.0",
     "chalk": "^4.1.2",
     "humanize-number": "^0.0.2",
+    "on-finished": "^2.4.1",
     "passthrough-counter": "^1.0.0"
   },
   "devDependencies": {
