@@ -8,12 +8,10 @@
   ],
   "scripts": {
     "lint": "xo",
-    "pretest": "npm run lint",
-    "test": "mocha --exit",
+    "lint:fix": "xo --fix",
+    "test": "node --test",
     "precoverage": "rimraf .nyc_output coverage",
-    "coverage": "nyc npm run test",
-    "preci": "echo start CI ........",
-    "ci": "npm run coverage"
+    "test-ci": "c8 npm run test"
   },
   "repository": {
     "type": "git",
@@ -27,56 +25,33 @@
   ],
   "author": "Christoffer Hallas <christoffer.hallas@icloud.com>",
   "contributors": [
-    "3imed-jaberi <imed_jebari@hotmail.fr> (https://www.3imed-jaberi.com)"
+    {
+      "name": "Imed Jaberi",
+      "email": "imed-jebari@outlook.com",
+      "url": "https://github.com/3imed-jaberi"
+    }
   ],
   "license": "MIT",
   "dependencies": {
     "bytes": "^3.1.0",
-    "chalk": "^4.1.0",
+    "chalk": "^4.1.2",
     "humanize-number": "^0.0.2",
+    "on-finished": "^2.4.1",
     "passthrough-counter": "^1.0.0"
   },
   "devDependencies": {
     "boom": "^7.3.0",
-    "chai": "^4.2.0",
-    "eslint-config-xo-lass": "^1.0.3",
-    "koa": "^2.12.1",
-    "koa-compress": "^4.0.1",
-    "koa-route": "^3.2.0",
-    "mocha": "^8.0.1",
-    "nyc": "^15.1.0",
-    "sinon": "^9.0.2",
-    "sinon-chai": "^3.5.0",
-    "supertest": "^4.0.2",
-    "xo": "^0.32.0"
-  },
-  "prettier": {
-    "singleQuote": true,
-    "bracketSpacing": true,
-    "trailingComma": "none"
-  },
-  "xo": {
-    "prettier": true,
-    "space": true,
-    "extends": [
-      "xo-lass"
-    ],
-    "ignore": [
-      "test",
-      "example.js"
-    ],
-    "rules": {
-      "node/no-deprecated-api": "off",
-      "no-unused-vars": "off",
-      "no-prototype-builtins": "off",
-      "prefer-rest-params": "off",
-      "max-params": "off",
-      "no-eq-null" : "off",
-      "eqeqeq": "off"
-    }
+    "c8": "^10.1.3",
+    "eslint-config-xo-lass": "^2.0.1",
+    "koa": "^3.0.0",
+    "koa-compress": "^5.1.1",
+    "koa-route": "^4.0.1",
+    "sinon": "^20.0.0",
+    "supertest": "^7.1.1",
+    "xo": "^0.60.0"
   },
   "engines": {
-    "node": ">= 10"
+    "node": ">= 18"
   },
   "homepage": "https://github.com/koajs/logger",
   "bugs": {
